@@ -285,19 +285,27 @@
     enable = true;
     enableBashIntegration = true;
     shellWrapperName = "y";
+
     settings = {
       manager = {
         show_hidden = true;
       };
-    };
-    keymap = {
-      manager.prepend_keymap = [
-        {
-          on   = [ "O" ];
-          run  = "shell 'code .' --confirm";
-          desc = "code";
-        }
-      ];
+
+      opener = {
+        vscode = [
+          { run = "code -n ."; orphan = true; desc = "code"; }
+        ];
+      };
+
+      open = {
+        prepend_rules = [
+          # "url" is the correct field, not "name"
+          # "*/" matches directories
+          { url = "*/"; use = [ "vscode" "edit" "open" "reveal" ]; }
+          # "*" matches everything else
+          { url = "*";  use = [ "vscode" "edit" "open" "reveal" ]; }
+        ];
+      };
     };
   };
 
