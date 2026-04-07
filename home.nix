@@ -290,6 +290,15 @@
         show_hidden = true;
       };
     };
+    keymap = {
+      manager.prepend_keymap = [
+        {
+          on   = [ "O" ];
+          run  = "shell 'code .' --confirm";
+          desc = "code";
+        }
+      ];
+    };
   };
 
   # ── Git ────────────────────────────────────────────────────────────
