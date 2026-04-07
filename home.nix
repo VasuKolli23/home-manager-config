@@ -233,6 +233,7 @@
     extraOptions = [
       "--group-directories-first"
       "--header"
+      "--all"
     ];
   };
 
