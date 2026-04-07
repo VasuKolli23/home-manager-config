@@ -300,7 +300,7 @@
         name  = "Vasu Kolli";
         email = "vkolli@rosen-group.com";
       };
-      init.defaultBranch = "main";
+      init.defaultBranch = "master";
       pull.rebase = true;
       push.autoSetupRemote = true;
 
