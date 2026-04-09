@@ -13,7 +13,7 @@
     
     # nixgl
     nixgl = {
-      url = "github:nix-community/nixGL";
+      url = "https://github.com/nix-community/nixGL/archive/main.tar.gz";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

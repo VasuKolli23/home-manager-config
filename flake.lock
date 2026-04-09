@@ -25,11 +25,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1775556024,
-        "narHash": "sha256-j1u/859OVS54rGlsvFqJdwKPEnFYCI+4pyfTiSfv1Xc=",
+        "lastModified": 1775683737,
+        "narHash": "sha256-oBYyowo6yfgb95Z78s3uTnAd9KkpJpwzjJbfnpLaM2Y=",
         "ref": "master",
-        "rev": "4bdfeff1d9b7473e6e58f73f5809576e8a69e406",
-        "revCount": 6463,
+        "rev": "7ba4ee4228ed36123c7cb75d50524b43514ef992",
+        "revCount": 6494,
         "type": "git",
         "url": "https://github.com/nix-community/home-manager.git"
       },
@@ -49,15 +49,12 @@
       "locked": {
         "lastModified": 1762090880,
         "narHash": "sha256-fbRQzIGPkjZa83MowjbD2ALaJf9y6KMDdJBQMKFeY/8=",
-        "owner": "nix-community",
-        "repo": "nixGL",
-        "rev": "b6105297e6f0cd041670c3e8628394d4ee247ed5",
-        "type": "github"
+        "type": "tarball",
+        "url": "https://github.com/nix-community/nixGL/archive/main.tar.gz"
       },
       "original": {
-        "owner": "nix-community",
-        "repo": "nixGL",
-        "type": "github"
+        "type": "tarball",
+        "url": "https://github.com/nix-community/nixGL/archive/main.tar.gz"
       }
     },
     "nixpkgs": {
