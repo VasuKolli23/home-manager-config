@@ -35,7 +35,6 @@
     fd
     wslu
     lazygit
-    htop
     fastfetch
 
     # cleaning
