@@ -1,4 +1,4 @@
-{ config, lib, pkgs, nixgl, ... }:
+{ config, pkgs, nixgl, ... }:
 
 {
   home.username = "vkolli";
@@ -32,14 +32,11 @@
   # ── Packages ─────────────────────────────────────────────────────────
   home.packages = with pkgs; [
     # misc
-    bash-completion
     fd
     wslu
-    fzf
     lazygit
     htop
     fastfetch
-    ripgrep
 
     # cleaning
     bleachbit
@@ -168,7 +165,7 @@
     shellOptions = [
       "histappend"
       "checkwinsize"
-      "globstar"   # uncomment if you want ** recursive glob
+      "globstar"
     ];
  
     # Everything that can't be expressed declaratively goes here.
