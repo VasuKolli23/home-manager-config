@@ -136,6 +136,9 @@
     win-ssh     = "/mnt/c/Windows/System32/OpenSSH/ssh.exe";
     win-scp     = "/mnt/c/Windows/System32/OpenSSH/scp.exe";
     win-sftp    = "/mnt/c/Windows/System32/OpenSSH/sftp.exe";
+
+    # cluster
+    pageant = "cd /mnt/c/; cmd.exe /c 'pageant.exe --openssh-config %userprofile%.ssh\pageant.conf'";
     linuxphys02 = "/mnt/c/Windows/System32/OpenSSH/ssh.exe linuxphys02.roseninspection.net";
 
     # ── Quick reload ──
