@@ -33,7 +33,6 @@
   home.packages = with pkgs; [
     # misc
     fd
-    wslu
     lazygit
     fastfetch
 
