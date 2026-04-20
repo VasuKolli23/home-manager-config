@@ -45,6 +45,10 @@
     # latex
     texliveFull
 
+    # FEM packages
+    gmsh
+    elmerfem
+
     # containers orchestration
     docker-compose
     podman-compose
@@ -78,7 +82,7 @@
     })
 
     # VA-API diagnostics: run `vainfo` to check decoder profiles
-    libva-utils  
+    libva-utils
 
     # paraview
     (config.lib.nixGL.wrap pkgs.paraview)
