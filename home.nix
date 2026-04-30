@@ -46,8 +46,7 @@
     texliveFull
 
     # FEM packages
-    gmsh
-    elmerfem
+   (config.lib.nixGL.wrap gmsh)
 
     # containers orchestration
     docker-compose
@@ -57,6 +56,9 @@
     # Tools for handling container images
     skopeo      # Great for copying container images to tarballs
     dive        # Useful for inspecting docker/OCI image layers    
+    
+    kdePackages.dolphin
+    kdePackages.konsole
 
     # development environemnt
     devenv
@@ -137,7 +139,7 @@
     win-sftp    = "/mnt/c/Windows/System32/OpenSSH/sftp.exe";
 
     # cluster
-    pageant = "cd /mnt/c/; cmd.exe /c 'pageant.exe --openssh-config %userprofile%.ssh\pageant.conf'";
+    start-pageant = ''(cd /mnt/c && cmd.exe /c "start pageant.exe --openssh-config %userprofile%\\.ssh\\pageant.conf")'';
     linuxphys02 = "/mnt/c/Windows/System32/OpenSSH/ssh.exe linuxphys02.roseninspection.net";
 
     # ── Quick reload ──
