@@ -57,6 +57,7 @@
     skopeo      # Great for copying container images to tarballs
     dive        # Useful for inspecting docker/OCI image layers    
     
+    # file managers
     kdePackages.dolphin
     kdePackages.konsole
 
