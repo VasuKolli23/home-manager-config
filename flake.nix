@@ -35,4 +35,4 @@
         # extraSpecialArgs = { inherit inputs; };
       };
     };
-};
+}

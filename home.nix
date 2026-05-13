@@ -52,6 +52,7 @@
     docker-compose
     podman-compose
     podman-tui
+    apptainer
 
     # Tools for handling container images
     skopeo      # Great for copying container images to tarballs
@@ -155,6 +156,9 @@
     
     # scoop update
     scoop-up = "powershell.exe -Command 'scoop update *; scoop cleanup *; scoop cache rm *'";
+
+    # salome
+    salome = "apptainer exec --unsquash --bind /mnt/wslg/.X11-unix:/tmp/.X11-unix --env DISPLAY=$DISPLAY salome.sif salome"
   };
 
 
