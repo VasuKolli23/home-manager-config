@@ -88,8 +88,6 @@
     # VA-API diagnostics: run `vainfo` to check decoder profiles
     libva-utils
 
-    # paraview
-    (config.lib.nixGL.wrap pkgs.paraview)
   ];
 
   # ── Environment Variables (shell-agnostic) ───────────────────────────
