@@ -41,6 +41,7 @@
 
     # editors
     emacs
+    gedit
 
     # latex
     texliveFull

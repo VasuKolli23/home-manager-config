@@ -3,11 +3,11 @@
 
   inputs = {
     # The DPI-bypassing nixpkgs URL that worked
-    nixpkgs.url = "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz";
+    nixpkgs.url = "https://channels.nixos.org/nixos-25.11/nixexprs.tar.xz";
 
     # Home Manager
     home-manager = {
-      url = "git+https://github.com/nix-community/home-manager.git?ref=master"; 
+      url = "git+https://github.com/nix-community/home-manager.git?ref=release-25.11"; 
       inputs.nixpkgs.follows = "nixpkgs"; 
     };
     
