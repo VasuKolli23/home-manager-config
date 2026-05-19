@@ -17,6 +17,9 @@
   nix = {
     package = pkgs.nix;
     settings.experimental-features = [ "nix-command" "flakes" ];
+    extraOptions = ''
+      !include ${config.home.homeDirectory}/.config/nix/secrets.conf
+    '';
   };
 
   nixpkgs.config.allowUnfree = true;
@@ -47,7 +50,8 @@
     texliveFull
 
     # FEM packages
-   (config.lib.nixGL.wrap gmsh)
+    (config.lib.nixGL.wrap gmsh)
+    python313Packages.meshio
 
     # containers orchestration
     docker-compose
