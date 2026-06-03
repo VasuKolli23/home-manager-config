@@ -20,6 +20,7 @@
     extraOptions = ''
       !include ${config.home.homeDirectory}/.config/nix/secrets.conf
     '';
+    settings.auto-optimise-store = true;
   };
 
   nixpkgs.config.allowUnfree = true;
@@ -354,11 +355,10 @@
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
-    matchBlocks = {
+    
+    settings = {
       "*" = {
-        extraOptions = {
-          AddKeysToAgent = "yes";
-        };
+        AddKeysToAgent = "yes";
       };
     };
   };
