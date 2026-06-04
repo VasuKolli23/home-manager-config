@@ -1,6 +1,10 @@
-{ config, pkgs, nixgl, ... }:
+{ config, pkgs, nixgl, lazyvim, ... }:
 
 {
+  imports = [
+    lazyvim.homeManagerModules.default
+  ];
+
   home.username = "vkolli";
   home.homeDirectory = "/home/vkolli";
   home.stateVersion = "25.11";
@@ -165,7 +169,6 @@
     salome = "apptainer exec --unsquash --bind /mnt/wslg/.X11-unix:/tmp/.X11-unix --env DISPLAY=$DISPLAY /mnt/c/MyData/scratch/salome/salome.sif salome";
   };
 
-
   # ── Bash ─────────────────────────────────────────────────────────────
   programs.bash = {
     enable = true;
@@ -217,11 +220,8 @@
       }'';
   };
 
-  # ── neovim editor ──────────────────────────────────────────────────
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true; # sets $EDITOR and $VISUAL to nvim
-  };
+  # ── Lazyvim + Neovim ──────────────────────────────────────────────
+  programs.lazyvim.enable = true;
 
   # ── Starship prompt ──────────────────────────────────────────────────
   # Replaces the entire PS1 / color_prompt / debian_chroot / xterm title

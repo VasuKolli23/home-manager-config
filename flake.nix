@@ -16,9 +16,13 @@
       url = "https://github.com/nix-community/nixGL/archive/main.tar.gz";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    lazyvim = {
+      url = "git+https://github.com/pfassina/lazyvim-nix.git?ref=main";
+    };
   };
 
-  outputs = { nixpkgs, home-manager, nixgl, ... }:
+  outputs = { nixpkgs, home-manager, nixgl, lazyvim, ... }:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
@@ -26,7 +30,7 @@
       homeConfigurations.vkolli = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
 
-        extraSpecialArgs = { inherit nixgl; };
+        extraSpecialArgs = { inherit nixgl lazyvim; };
 
         # Specify your home configuration modules here
         modules = [ ./home.nix ];
