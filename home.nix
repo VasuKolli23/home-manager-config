@@ -10,9 +10,7 @@
   home.stateVersion = "25.11";
 
   programs.home-manager.enable = true;
-
   targets.genericLinux.enable = true;
-
   fonts.fontconfig.enable = true;
 
   xdg.enable = true;
@@ -97,7 +95,6 @@
 
     # VA-API diagnostics: run `vainfo` to check decoder profiles
     libva-utils
-
   ];
 
   # ── Environment Variables (shell-agnostic) ───────────────────────────
@@ -160,13 +157,10 @@
     nuke-podman = "podman system reset -f";
 
     # ── Nix convenience ──
-    nix-up = "cd ~/.config/home-manager && nix flake update && home-manager switch --flake .#vkolli && nix-collect-garbage -d && cd ~ && exec bash";
+    nix-up = "nix flake update ~/.config/home-manager && home-manager switch --flake ~/.config/home-manager#vkolli && nix-collect-garbage --delete-older-than 7d";
     
     # scoop update
     scoop-up = "powershell.exe -Command 'scoop update *; scoop cleanup *; scoop cache rm *'";
-
-    # salome
-    salome = "apptainer exec --unsquash --bind /mnt/wslg/.X11-unix:/tmp/.X11-unix --env DISPLAY=$DISPLAY /mnt/c/MyData/scratch/salome/salome.sif salome";
   };
 
   # ── Bash ─────────────────────────────────────────────────────────────
@@ -208,9 +202,6 @@
 
         nix-collect-garbage -d
 
-        echo -e "\n--- Updating Neovim Plugins ---"
-        nvim --headless "+Lazy! sync" +qa
-
         echo -e "\n--- Updating doom emacs plugins ---"
         ~/.config/emacs/bin/doom upgrade
         ~/.config/emacs/bin/doom sync
@@ -223,7 +214,6 @@
   # ── Lazyvim + Neovim ──────────────────────────────────────────────
   programs.lazyvim = {
     enable = true;
-    
     extras = {
     lang.nix.enable = true;
     lang.python = {
