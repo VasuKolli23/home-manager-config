@@ -104,8 +104,8 @@
     GCC_COLORS = "error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01";
     
     # default editor
-    EDITOR = "nvim";
-    VISUAL = "nvim";
+    EDITOR  = "nvim";
+    VISUAL  = "nvim";
     BROWSER = "wslview";
 
     # WSLg / Wayland support
@@ -124,7 +124,7 @@
     # adapter when multiple GPUs are present on the Windows host.
     LIBVA_DRIVER_NAME               = "d3d12";
     MESA_D3D12_DEFAULT_ADAPTER_NAME = "Intel";
-    VTK_SMP_IMPLEMENTATION_NAME = "TBB";
+    VTK_SMP_IMPLEMENTATION_NAME     = "TBB";
 
     # SSL / Certificates
     SSL_CERT_FILE       = "/etc/ssl/certs/ca-certificates.crt";
