@@ -18,11 +18,24 @@
 
   nix = {
     package = pkgs.nix;
+
+    # experimental features enable
     settings.experimental-features = [ "nix-command" "flakes" ];
+
+    # secrets
     extraOptions = ''
       !include ${config.home.homeDirectory}/.config/nix/secrets.conf
     '';
+
+    # optimize (reuse) common packages
     settings.auto-optimise-store = true;
+
+    # garbage collection
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 7d";
+    };
   };
 
   nixpkgs.config.allowUnfree = true;
@@ -64,8 +77,8 @@
 
     # Tools for handling container images
     skopeo      # Great for copying container images to tarballs
-    dive        # Useful for inspecting docker/OCI image layers    
-    
+    dive        # Useful for inspecting docker/OCI image layers
+
     # file managers
     kdePackages.dolphin
     kdePackages.konsole
@@ -102,7 +115,7 @@
   # not just interactive bash sessions.
   home.sessionVariables = {
     GCC_COLORS = "error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01";
-    
+
     # default editor
     EDITOR  = "nvim";
     VISUAL  = "nvim";
@@ -157,8 +170,8 @@
     nuke-podman = "podman system reset -f";
 
     # ── Nix convenience ──
-    nix-up = "nix flake update ~/.config/home-manager && home-manager switch --flake ~/.config/home-manager#vkolli && nix-collect-garbage --delete-older-than 7d";
-    
+    nix-up = "nix flake update --flake ~/.config/home-manager && home-manager switch --flake ~/.config/home-manager#vkolli";
+
     # scoop update
     scoop-up = "powershell.exe -Command 'scoop update *; scoop cleanup *; scoop cache rm *'";
   };
@@ -169,15 +182,15 @@
     enableCompletion = true;
 
     historyControl = [ "ignoreboth" ];
-    historySize = 1000;
-    historyFileSize = 2000;
+    historySize = 10000;
+    historyFileSize = 20000;
 
     shellOptions = [
       "histappend"
       "checkwinsize"
       "globstar"
     ];
- 
+
     # Everything that can't be expressed declaratively goes here.
     # This is appended at the end of .bashrc.
     initExtra = ''
@@ -192,15 +205,11 @@
         echo -e "\n--- Updating Debian (Nala) ---"
         sudo nala update
         sudo nala upgrade -y
-        sudo apt-get autoremove
+        sudo apt-get autoremove -y
 
         echo -e "\n--- Updating Nix Packages ---"
-        cd "$HOME/.config/home-manager"
-        nix flake update
-        home-manager switch --flake .#vkolli
-        cd "$HOME"
-
-        nix-collect-garbage -d
+        nix flake update ~/.config/home-manager
+        home-manager switch --flake ~/.config/home-manager#vkolli
 
         echo -e "\n--- Updating doom emacs plugins ---"
         ~/.config/emacs/bin/doom upgrade
@@ -356,7 +365,7 @@
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
-    
+
     settings = {
       "*" = {
         AddKeysToAgent = "yes";
@@ -364,4 +373,3 @@
     };
   };
 }
-
