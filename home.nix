@@ -208,8 +208,8 @@
         sudo apt-get autoremove -y
 
         echo -e "\n--- Updating Nix Packages ---"
-        nix flake update ~/.config/home-manager
-        home-manager switch --flake ~/.config/home-manager#vkolli
+        nix flake update --flake /home/vkolli/.config/home-manager
+        home-manager switch --flake /home/vkolli/.config/home-manager#vkolli
 
         echo -e "\n--- Updating doom emacs plugins ---"
         ~/.config/emacs/bin/doom upgrade
