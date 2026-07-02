@@ -27,8 +27,8 @@
       !include ${config.home.homeDirectory}/.config/nix/secrets.conf
     '';
 
-    # optimize (reuse) common packages
-    settings.auto-optimise-store = true;
+    # optimize (reuse) common package - elmerfem does not like it
+    settings.auto-optimise-store = false;
 
     # garbage collection
     gc = {
@@ -59,7 +59,6 @@
     bleachbit
 
     # editors
-    emacs
     gedit
 
     # latex
@@ -210,10 +209,6 @@
         echo -e "\n--- Updating Nix Packages ---"
         nix flake update --flake /home/vkolli/.config/home-manager
         home-manager switch --flake /home/vkolli/.config/home-manager#vkolli
-
-        echo -e "\n--- Updating doom emacs plugins ---"
-        ~/.config/emacs/bin/doom upgrade
-        ~/.config/emacs/bin/doom sync
 
         echo -e "\n--- ALL UPDATES COMPLETE ---"
         exec bash
