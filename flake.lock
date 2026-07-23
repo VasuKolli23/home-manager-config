@@ -43,18 +43,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1784489491,
-        "narHash": "sha256-j9maqjx1T8+ljAVntAdSI5hSGCm77QNZz64JF1rJNu0=",
-        "ref": "master",
-        "rev": "3139deb8cafbe73b39b24451255b2fdd3426077e",
-        "revCount": 7068,
-        "type": "git",
-        "url": "https://github.com/nix-community/home-manager.git"
+        "lastModified": 1784789275,
+        "narHash": "sha256-cgRTWuG+u1tBPhm01JrId2k0Bni09phVJ1Q0BZlRd7M=",
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "rev": "3b0e6bbd65869af1beadf5963a99befc179d209f",
+        "type": "github"
       },
       "original": {
-        "ref": "master",
-        "type": "git",
-        "url": "https://github.com/nix-community/home-manager.git"
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "type": "github"
       }
     },
     "lazyvim": {
@@ -65,16 +64,15 @@
       "locked": {
         "lastModified": 1781223826,
         "narHash": "sha256-ezB1SLk4wyBkJZC9NHKn21FsheyVdmFha+FO/6tflO4=",
-        "ref": "main",
+        "owner": "pfassina",
+        "repo": "lazyvim-nix",
         "rev": "d1f9bd2bfff35708dfaf75351bce06580a862f61",
-        "revCount": 183,
-        "type": "git",
-        "url": "https://github.com/pfassina/lazyvim-nix.git"
+        "type": "github"
       },
       "original": {
-        "ref": "main",
-        "type": "git",
-        "url": "https://github.com/pfassina/lazyvim-nix.git"
+        "owner": "pfassina",
+        "repo": "lazyvim-nix",
+        "type": "github"
       }
     },
     "nixgl": {
@@ -87,12 +85,15 @@
       "locked": {
         "lastModified": 1762090880,
         "narHash": "sha256-fbRQzIGPkjZa83MowjbD2ALaJf9y6KMDdJBQMKFeY/8=",
-        "type": "tarball",
-        "url": "https://github.com/nix-community/nixGL/archive/main.tar.gz"
+        "owner": "nix-community",
+        "repo": "nixGL",
+        "rev": "b6105297e6f0cd041670c3e8628394d4ee247ed5",
+        "type": "github"
       },
       "original": {
-        "type": "tarball",
-        "url": "https://github.com/nix-community/nixGL/archive/main.tar.gz"
+        "owner": "nix-community",
+        "repo": "nixGL",
+        "type": "github"
       }
     },
     "nixpkgs": {
@@ -113,15 +114,18 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1784356753,
-        "narHash": "sha256-zupdTm41be2fY8cexroEOGjopl3F2Gqs3gk7ieqaM3s=",
-        "rev": "61b7c44c4073f0b827768aff0049561b5110ea5a",
-        "type": "tarball",
-        "url": "https://releases.nixos.org/nixos/unstable/nixos-26.11pre1036777.61b7c44c4073/nixexprs.tar.xz"
+        "lastModified": 1784497964,
+        "narHash": "sha256-vlHUuqAcbcH2RKmHbPiuQzbv1pnzzavXnI62RD0bqCU=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "241313f4e8e508cb9b13278c2b0fa25b9ca27163",
+        "type": "github"
       },
       "original": {
-        "type": "tarball",
-        "url": "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz"
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
       }
     },
     "root": {

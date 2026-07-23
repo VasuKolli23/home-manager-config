@@ -2,23 +2,22 @@
   description = "My Home Manager Flake";
 
   inputs = {
-    # The DPI-bypassing nixpkgs URL that worked
-    nixpkgs.url = "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     # Home Manager
     home-manager = {
-      url = "git+https://github.com/nix-community/home-manager.git?ref=master"; 
+      url = "github:nix-community/home-manager"; 
       inputs.nixpkgs.follows = "nixpkgs"; 
     };
     
     # nixgl
     nixgl = {
-      url = "https://github.com/nix-community/nixGL/archive/main.tar.gz";
+      url = "github:nix-community/nixGL";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     lazyvim = {
-      url = "git+https://github.com/pfassina/lazyvim-nix.git?ref=main";
+      url = "github:pfassina/lazyvim-nix";
     };
   };
 
