@@ -99,8 +99,6 @@
         "--ignore-gpu-blocklist"
         # Try HW video decode; harmless if it falls back to software:
         "--enable-features=VaapiVideoDecodeLinuxGL"
-        # Only needed if you screen-share under Wayland:
-        "--enable-webrtc-pipewire-capturer"
       ];
     })
 
