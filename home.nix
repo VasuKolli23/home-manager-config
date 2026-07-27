@@ -27,9 +27,6 @@
       !include ${config.home.homeDirectory}/.config/nix/secrets.conf
     '';
 
-    # optimize (reuse) common package - elmerfem does not like it
-    settings.auto-optimise-store = false;
-
     # garbage collection
     gc = {
       automatic = true;
@@ -41,8 +38,11 @@
   nixpkgs.config.allowUnfree = true;
 
   # ── NixGL integration for GPU/OpenGL access ───────────────────────
-  # Wraps programs so Nix-built Mesa can find the host GPU libraries.
-  # "mesa" is the correct wrapper for Intel iGPU (free/open drivers).
+  # Wraps programs so Nix-built apps can find the host GPU libraries.
+  # On WSL2 the NVIDIA GPU is reached via Mesa's D3D12 driver (/dev/dxg),
+  # not the native proprietary driver, so "mesa" is the correct wrapper
+  # here — the "nvidia" wrapper needs /proc/driver/nvidia which WSL2 lacks.
+  # (CUDA/NVENC still use the GPU directly via /usr/lib/wsl/lib.)
   targets.genericLinux.nixGL = {
     packages = nixgl.packages;
     defaultWrapper = "mesa";
@@ -96,11 +96,10 @@
       enableWidevine    = true;
       commandLineArgs   = [
         "--ozone-platform-hint=auto"
-        "--use-gl=egl"
         "--ignore-gpu-blocklist"
-        "--enable-gpu-rasterization"
-        "--enable-zero-copy"
-        "--enable-features=VaapiVideoDecodeLinuxGL,VaapiVideoEncoder,CanvasOopRasterization,UseOzonePlatform"
+        # Try HW video decode; harmless if it falls back to software:
+        "--enable-features=VaapiVideoDecodeLinuxGL"
+        # Only needed if you screen-share under Wayland:
         "--enable-webrtc-pipewire-capturer"
       ];
     })
@@ -129,13 +128,14 @@
     QT_QPA_PLATFORM    = "wayland;xcb";      # Qt apps same
     PULSE_SERVER       = "unix:/mnt/wslg/runtime-dir/pulse/native"; # audio via WSLg
 
-    # ── VA-API for Intel GPU in WSL2 ─────────────────────────────────
-    # WSL2 exposes your Intel GPU through Mesa's D3D12 VAAPI backend.
+    # ── VA-API for NVIDIA GPU in WSL2 ────────────────────────────────
+    # WSL2 exposes the GPU through Mesa's D3D12 VAAPI backend (NVIDIA does
+    # not provide a native VA-API driver under WSL2).
     # Setting LIBVA_DRIVER_NAME=d3d12 tells libva to use that backend.
-    # MESA_D3D12_DEFAULT_ADAPTER_NAME=Intel ensures it picks the right
+    # MESA_D3D12_DEFAULT_ADAPTER_NAME=NVIDIA ensures it picks the right
     # adapter when multiple GPUs are present on the Windows host.
     LIBVA_DRIVER_NAME               = "d3d12";
-    MESA_D3D12_DEFAULT_ADAPTER_NAME = "Intel";
+    MESA_D3D12_DEFAULT_ADAPTER_NAME = "NVIDIA";
     VTK_SMP_IMPLEMENTATION_NAME     = "TBB";
 
     # SSL / Certificates
