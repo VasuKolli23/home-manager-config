@@ -80,6 +80,7 @@
 
     # development environemnt
     devenv
+    devbox
 
     # kubernetes
     openshift
