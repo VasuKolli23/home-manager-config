@@ -1,4 +1,4 @@
-{ config, pkgs, nixgl, lazyvim, ... }:
+{ config, pkgs, nixgl, lazyvim, inputs, ... }:
 
 {
   imports = [
@@ -26,6 +26,8 @@
     extraOptions = ''
       !include ${config.home.homeDirectory}/.config/nix/secrets.conf
     '';
+    # Maps 'nixpkgs' in the CLI to your flake's nixpkgs input
+    registry.nixpkgs.flake = inputs.nixpkgs;
 
     # garbage collection
     gc = {

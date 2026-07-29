@@ -21,7 +21,7 @@
     };
   };
 
-  outputs = { nixpkgs, home-manager, nixgl, lazyvim, ... }:
+  outputs = { nixpkgs, home-manager, nixgl, lazyvim, ... }@inputs:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
@@ -29,13 +29,10 @@
       homeConfigurations.vkolli = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
 
-        extraSpecialArgs = { inherit nixgl lazyvim; };
+        extraSpecialArgs = { inherit nixgl lazyvim inputs; };
 
         # Specify your home configuration modules here
         modules = [ ./home.nix ];
-
-        # Optionally use extraSpecialArgs to pass arguments to home.nix
-        # extraSpecialArgs = { inherit inputs; };
       };
     };
 }
