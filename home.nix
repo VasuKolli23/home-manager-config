@@ -94,13 +94,18 @@
       proprietaryCodecs = true;
       enableWidevine    = true;
       commandLineArgs   = [
+        # 1. Use Wayland natively (WSLg uses Wayland)
         "--ozone-platform-hint=auto"
-        "--ignore-gpu-blocklist"
-        # Try HW video decode; harmless if it falls back to software:
-        "--enable-features=VaapiVideoDecodeLinuxGL"
+        "--enable-features=UseOzonePlatform"
+        
+        # 2. Disable native GPU rendering to prevent the /dev/dri crash
+        "--disable-gpu"
+        "--disable-software-rasterizer"
+        
+        # (Optional) Fixes blurry fonts in WSLg for some users
+        "--force-device-scale-factor=1" 
       ];
     })
-
     # VA-API diagnostics: run `vainfo` to check decoder profiles
     libva-utils
   ];
@@ -119,7 +124,7 @@
     # WSLg / Wayland support
     DISPLAY            = ":0";
     WAYLAND_DISPLAY    = "wayland-0";
-    XDG_RUNTIME_DIR    = "/run/user/1000";   # replace 1000 with your actual UID
+    XDG_RUNTIME_DIR    = "/run/user/$(id -u)";
     XDG_SESSION_TYPE   = "wayland";
     GDK_BACKEND        = "wayland,x11";      # GTK apps prefer Wayland, fall back to X11
     QT_QPA_PLATFORM    = "wayland;xcb";      # Qt apps same
