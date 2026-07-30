@@ -144,6 +144,7 @@
     SSL_CERT_FILE       = "/etc/ssl/certs/ca-certificates.crt";
     SSL_CERT_DIR        = "/etc/ssl/certs";
     NIX_SSL_CERT_FILE   = "/etc/ssl/certs/ca-certificates.crt";
+    NIX_PATH            = "nixpkgs=flake:nixpkgs";
     CURL_CA_BUNDLE      = "/etc/ssl/certs/ca-certificates.crt";
     REQUESTS_CA_BUNDLE  = "/etc/ssl/certs/ca-certificates.crt";
     NODE_EXTRA_CA_CERTS = "/etc/ssl/certs/ca-certificates.crt";
