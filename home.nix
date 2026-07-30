@@ -412,12 +412,13 @@
     };
     Service = {
       # Points to the Nix-installed ollama binary
-      ExecStart = "${pkgs.ollama}/bin/ollama serve";
+      ExecStart = "${pkgs.ollama.override { acceleration = "cuda"; }}/bin/ollama serve";
       Restart = "always";
       RestartSec = "3";
       # Optional: Add any environment variables you want here
       Environment = [
         "OLLAMA_HOST=127.0.0.1:11434"
+        "LD_LIBRARY_PATH=/usr/lib/wsl/lib"
       ];
     };
     Install = {
