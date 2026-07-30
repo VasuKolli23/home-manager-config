@@ -89,6 +89,12 @@
     kubectl
     jfrog-cli
 
+    # local models
+    ollama-cuda
+    shell-gpt
+    open-webui
+    ffmpeg
+
     # ── GUI: Vivaldi with proprietary codecs ─────────────────────────
     (vivaldi.override {
       proprietaryCodecs = true;
@@ -143,11 +149,13 @@
     # SSL / Certificates
     SSL_CERT_FILE       = "/etc/ssl/certs/ca-certificates.crt";
     SSL_CERT_DIR        = "/etc/ssl/certs";
-    NIX_SSL_CERT_FILE   = "/etc/ssl/certs/ca-certificates.crt";
-    NIX_PATH            = "nixpkgs=flake:nixpkgs";
     CURL_CA_BUNDLE      = "/etc/ssl/certs/ca-certificates.crt";
     REQUESTS_CA_BUNDLE  = "/etc/ssl/certs/ca-certificates.crt";
     NODE_EXTRA_CA_CERTS = "/etc/ssl/certs/ca-certificates.crt";
+
+    # Nix
+    NIX_SSL_CERT_FILE   = "/etc/ssl/certs/ca-certificates.crt";
+    NIX_PATH            = "nixpkgs=flake:nixpkgs";
   };
 
   home.sessionVariablesExtra = ''
@@ -177,6 +185,31 @@
     # scoop update
     scoop-up = "powershell.exe -Command 'scoop update *; scoop cleanup *; scoop cache rm *'";
   };
+
+  # ── shell-gpt config ─────────────────────────────────────────────────
+  xdg.configFile."shell_gpt/.sgptrc".text = ''
+    CHAT_CACHE_PATH=/tmp/chat_cache
+    CACHE_PATH=/tmp/cache
+    CHAT_CACHE_LENGTH=100
+    CACHE_LENGTH=100
+    REQUEST_TIMEOUT=60
+    DEFAULT_MODEL=ollama/qwen3-coder:30b
+    DEFAULT_COLOR=magenta
+    ROLE_STORAGE_PATH=/home/vkolli/.config/shell_gpt/roles
+    DEFAULT_EXECUTE_SHELL_CMD=false
+    DISABLE_STREAMING=false
+    CODE_THEME=dracula
+    OPENAI_FUNCTIONS_PATH=/home/vkolli/.config/shell_gpt/functions
+    OPENAI_USE_FUNCTIONS=false
+    SHOW_FUNCTIONS_OUTPUT=false
+    API_BASE_URL=default
+    PRETTIFY_MARKDOWN=true
+    USE_LITELLM=true
+    SHELL_INTERACTION=true
+    OS_NAME=auto
+    SHELL_NAME=auto
+    OPENAI_API_KEY='dummy'
+  ''; 
 
   # ── Bash ─────────────────────────────────────────────────────────────
   programs.bash = {
@@ -370,4 +403,50 @@
       };
     };
   };
-}
+
+  # ── background services ────────────────────────────────────────────
+  systemd.user.services.ollama = {
+    Unit = {
+      Description = "Ollama AI Service";
+      After = [ "network.target" ];
+    };
+    Service = {
+      # Points to the Nix-installed ollama binary
+      ExecStart = "${pkgs.ollama}/bin/ollama serve";
+      Restart = "always";
+      RestartSec = "3";
+      # Optional: Add any environment variables you want here
+      Environment = [
+        "OLLAMA_HOST=127.0.0.1:11434"
+      ];
+    };
+    Install = {
+      WantedBy = [ "default.target" ];
+    };
+  };
+
+  systemd.user.services.open-webui = {
+      Unit = {
+        Description = "Open WebUI for Ollama";
+        # This ensures Open WebUI waits for Ollama to start first
+        After = [ "ollama.service" ];
+        Wants = [ "ollama.service" ];
+      };
+      Service = {
+        # Run the open-webui binary
+        ExecStart = "${pkgs.open-webui}/bin/open-webui serve";
+        Restart = "always";
+        RestartSec = "5";
+        Environment = [
+          # Point it to your local Ollama
+          "OLLAMA_BASE_URL=http://127.0.0.1:11434"
+          # The port you will use to access it from Windows (default is 8080)
+          "PORT=8080"
+          # %h is systemd shorthand for your home directory. 
+          # This saves your chat history safely in ~/.local/share/open-webui
+          "DATA_DIR=%h/.local/share/open-webui"
+        ];
+      };
+      Install = { WantedBy = [ "default.target" ]; };
+    };
+  }
