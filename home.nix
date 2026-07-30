@@ -248,7 +248,20 @@
 
         echo -e "\n--- ALL UPDATES COMPLETE ---"
         exec bash
-      }'';
+      }
+
+      # Shell-GPT Bash Integration
+      _sgpt_bash() {
+          if [[ -n "$READLINE_LINE" ]]; then
+              # Added '--chat terminal_session' to remember context
+              READLINE_LINE=$(sgpt --shell --chat terminal_session <<< "$READLINE_LINE" --no-interaction)
+              READLINE_POINT=''${#READLINE_LINE}
+          fi
+      }
+
+      # Bind the function to Ctrl+g
+      bind -x '"\C-g": _sgpt_bash'
+    '';
   };
 
   # ── Lazyvim + Neovim ──────────────────────────────────────────────
