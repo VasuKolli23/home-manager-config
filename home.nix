@@ -333,17 +333,6 @@
     enable = true;
     enableBashIntegration = true;
     defaultOptions = [ "--height 40%" "--border" ];
-    # Disable fzf's Ctrl-R history widget so Atuin can own it cleanly.
-    historyWidget.command = "";
-  };
-
-  # ── sql history  ─────────────────────────────────────────────────────────────
-  programs.atuin = {
-    enable = true;
-    enableBashIntegration = true;
-    settings = {
-      search_mode = "fuzzy";
-    };
   };
 
   # ── bat  ─────────────────────────────────────────────────────────────
