@@ -56,6 +56,7 @@
     fd
     lazygit
     fastfetch
+    tree
 
     # cleaning
     bleachbit
