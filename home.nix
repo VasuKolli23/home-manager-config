@@ -37,7 +37,9 @@
     };
   };
 
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config = {
+    allowUnfree = true;
+  };
 
   # ── NixGL integration for GPU/OpenGL access ───────────────────────
   # Wraps programs so Nix-built apps can find the host GPU libraries.
@@ -92,7 +94,6 @@
 
     # local models
     ollama-cuda
-    shell-gpt
     open-webui
     ffmpeg
 
@@ -104,13 +105,13 @@
         # 1. Use Wayland natively (WSLg uses Wayland)
         "--ozone-platform-hint=auto"
         "--enable-features=UseOzonePlatform"
-        
+
         # 2. Disable native GPU rendering to prevent the /dev/dri crash
         "--disable-gpu"
         "--disable-software-rasterizer"
-        
+
         # (Optional) Fixes blurry fonts in WSLg for some users
-        "--force-device-scale-factor=1" 
+        "--force-device-scale-factor=1"
       ];
     })
     # VA-API diagnostics: run `vainfo` to check decoder profiles
@@ -186,31 +187,6 @@
     # scoop update
     scoop-up = "powershell.exe -Command 'scoop update *; scoop cleanup *; scoop cache rm *'";
   };
-
-  # ── shell-gpt config ─────────────────────────────────────────────────
-  xdg.configFile."shell_gpt/.sgptrc".text = ''
-    CHAT_CACHE_PATH=/tmp/chat_cache
-    CACHE_PATH=/tmp/cache
-    CHAT_CACHE_LENGTH=100
-    CACHE_LENGTH=100
-    REQUEST_TIMEOUT=60
-    DEFAULT_MODEL=ollama/qwen3-coder:30b
-    DEFAULT_COLOR=magenta
-    ROLE_STORAGE_PATH=/home/vkolli/.config/shell_gpt/roles
-    DEFAULT_EXECUTE_SHELL_CMD=false
-    DISABLE_STREAMING=false
-    CODE_THEME=dracula
-    OPENAI_FUNCTIONS_PATH=/home/vkolli/.config/shell_gpt/functions
-    OPENAI_USE_FUNCTIONS=false
-    SHOW_FUNCTIONS_OUTPUT=false
-    API_BASE_URL=default
-    PRETTIFY_MARKDOWN=true
-    USE_LITELLM=true
-    SHELL_INTERACTION=true
-    OS_NAME=auto
-    SHELL_NAME=auto
-    OPENAI_API_KEY='dummy'
-  ''; 
 
   # ── Bash ─────────────────────────────────────────────────────────────
   programs.bash = {
@@ -457,7 +433,7 @@
           "OLLAMA_BASE_URL=http://127.0.0.1:11434"
           # The port you will use to access it from Windows (default is 8080)
           "PORT=8080"
-          # %h is systemd shorthand for your home directory. 
+          # %h is systemd shorthand for your home directory.
           # This saves your chat history safely in ~/.local/share/open-webui
           "DATA_DIR=%h/.local/share/open-webui"
         ];
