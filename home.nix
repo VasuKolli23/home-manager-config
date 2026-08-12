@@ -186,6 +186,9 @@
 
     # scoop update
     scoop-up = "powershell.exe -Command 'scoop update *; scoop cleanup *; scoop cache rm *'";
+
+    # scoop zed path
+    zed = "/mnt/c/Users/vkolli/scoop/apps/zed/current/bin/zed";
   };
 
   # ── Bash ─────────────────────────────────────────────────────────────
