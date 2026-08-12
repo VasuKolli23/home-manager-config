@@ -158,6 +158,9 @@
     # Nix
     NIX_SSL_CERT_FILE   = "/etc/ssl/certs/ca-certificates.crt";
     NIX_PATH            = "nixpkgs=flake:nixpkgs";
+
+    # aider variables
+    OLLAMA_API_BASE = "http://127.0.0.1:11434";
   };
 
   home.sessionVariablesExtra = ''
@@ -394,6 +397,16 @@
       "*" = {
         AddKeysToAgent = "yes";
       };
+    };
+  };
+
+  # ── Aider Chat (AI assistant) ─────────────────────────────────────────
+  programs.aider-chat = {
+    enable = true;
+    package = pkgs.aider-chat-full;
+    settings = {
+      code-theme = "monokai";
+      dark-mode = true;
     };
   };
 
