@@ -406,7 +406,11 @@
     package = pkgs.aider-chat-full;
     settings = {
       code-theme = "monokai";
-      dark-mode = true;
+      user-input-color = "#cccccc";
+      assistant-output-color = "#569cd6"; # A nice blue for the AI's responses
+      tool-output-color = "#888888"; # Gray for standard tool outputs
+      tool-warning-color = "#ffa500"; # Orange for warnings
+      tool-error-color = "#ff2222"; # Red for errors
     };
   };
 
