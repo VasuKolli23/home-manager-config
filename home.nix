@@ -410,7 +410,60 @@
     };
   };
 
-  # ── background services ────────────────────────────────────────────
+  # ── opencode ────────────────────────────────────────────
+  programs.opencode = {
+    enable = true;
+    
+    # Core runtime configuration (opencode.json)
+    settings = {
+      autoupdate = false;
+      share = "disabled";
+      default_agent = "plan";
+      
+      # 1. Set your default model here so OpenCode knows to use it
+      model = "qwen3.8:27b-mtp-q4_K_M";
+      
+      permission = {
+        "bash" = "ask";
+        "edit" = "ask";
+      };
+      lsp = true;
+      formatter = true;
+  
+      # 2. The provider block MUST be inside settings
+      provider = {
+        ollama = {
+          # OpenCode uses the AI SDK to connect to OpenAI-compatible endpoints
+          npm = "@ai-sdk/openai-compatible";
+          name = "Ollama (Local)";
+          
+          # 3. options and models MUST be inside the ollama block
+          options = {
+            # The /v1 is strictly required for the OpenAI compatibility layer
+            baseURL = "http://127.0.0.1:11434/v1";
+          };           
+          
+          # Explicitly declare your local models here
+          models = {
+            "qwen3.8:27b-mtp-q4_K_M" = {
+              name = "qwen3.8:27b-mtp-q4_K_M";
+            };
+          };
+        }; # <--- ollama block closes here now
+      };
+    };
+  
+    # Terminal UI configuration (tui.json)
+    tui = {
+      theme = "one-dark";
+      mouse = true;
+      attention = {
+        enabled = true;
+        notifications = true;
+      };
+    };
+  };
+    # ── background services ────────────────────────────────────────────
   systemd.user.services.ollama = {
     Unit = {
       Description = "Ollama AI Service";
