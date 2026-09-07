@@ -209,8 +209,6 @@
       "globstar"
     ];
 
-    # Everything that can't be expressed declaratively goes here.
-    # This is appended at the end of .bashrc.
     initExtra = ''
       # ── up-all function ──
       up-all() {
@@ -231,15 +229,6 @@
 
         echo -e "\n--- ALL UPDATES COMPLETE ---"
         exec bash
-      }
-
-      # Shell-GPT Bash Integration
-      _sgpt_bash() {
-          if [[ -n "$READLINE_LINE" ]]; then
-              # Added '--chat terminal_session' to remember context
-              READLINE_LINE=$(sgpt --shell --chat terminal_session <<< "$READLINE_LINE" --no-interaction)
-              READLINE_POINT=''${#READLINE_LINE}
-          fi
       }
 
       # Bind the function to Ctrl+g
