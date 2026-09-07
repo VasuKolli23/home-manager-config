@@ -60,14 +60,16 @@
     fastfetch
     tree
 
+    # nix language
+    nixd
+    nixpkgs-fmt
+
     # cleaning
     bleachbit
 
-    # editors
-    gedit
-
     # latex
     texliveFull
+    texstudio
 
     # FEM packages
     (config.lib.nixGL.wrap gmsh)
