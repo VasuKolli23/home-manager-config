@@ -256,9 +256,7 @@
   # block from your old .bashrc.  Starship handles all of that.
   programs.starship = {
     enable = true;
-    presets = ["catppuccin-powerline"];
     settings = {
-      palette = "catppuccin_mocha"; 
       directory = {
         truncation_length   = 0;     # 0 = never truncate
         truncate_to_repo    = false; # don't stop at the git repo root
