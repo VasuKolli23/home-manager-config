@@ -239,17 +239,17 @@
   };
 
   # ── Lazyvim + Neovim ──────────────────────────────────────────────
-  programs.lazyvim = {
-    enable = true;
-    extras = {
-    lang.nix.enable = true;
-    lang.python = {
-      enable = true;
-      installDependencies = true;        # Install ruff
-      installRuntimeDependencies = true; # Install python3
-      };
-    };
-  };
+  # programs.lazyvim = {
+  #   enable = true;
+  #   extras = {
+  #   lang.nix.enable = true;
+  #   lang.python = {
+  #     enable = true;
+  #     installDependencies = true;        # Install ruff
+  #     installRuntimeDependencies = true; # Install python3
+  #     };
+  #   };
+  # };
 
   # ── Starship prompt ──────────────────────────────────────────────────
   # Replaces the entire PS1 / color_prompt / debian_chroot / xterm title
