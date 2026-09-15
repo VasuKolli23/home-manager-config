@@ -232,9 +232,6 @@
         echo -e "\n--- ALL UPDATES COMPLETE ---"
         exec bash
       }
-
-      # Bind the function to Ctrl+g
-      bind -x '"\C-g": _sgpt_bash'
     '';
   };
 
