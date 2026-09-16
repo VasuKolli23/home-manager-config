@@ -22,6 +22,16 @@
     # experimental features enable
     settings.experimental-features = [ "nix-command" "flakes" ];
 
+    # cuda maintainers
+    settings = {
+      extra-substituters = [
+        "https://cache.nixos-cuda.org"
+      ];
+      extra-trusted-public-keys = [
+        "cache.nixos-cuda.org:74DUi4Ye579gUqzH4ziL9IyiJBlDpMRn9MBN8oNan9M="
+      ];
+    };
+
     # secrets
     extraOptions = ''
       !include ${config.home.homeDirectory}/.config/nix/secrets.conf
