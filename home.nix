@@ -69,6 +69,7 @@
     lazygit
     fastfetch
     tree
+    nh
 
     # nix language
     nixd
@@ -170,6 +171,7 @@
     # Nix
     NIX_SSL_CERT_FILE   = "/etc/ssl/certs/ca-certificates.crt";
     NIX_PATH            = "nixpkgs=flake:nixpkgs";
+    FLAKE               = "$HOME/.config/home-manager";
 
     # aider variables
     OLLAMA_API_BASE = "http://127.0.0.1:11434";
@@ -197,7 +199,8 @@
     nuke-podman = "podman system reset -f";
 
     # ── Nix convenience ──
-    nix-up = "nix flake update --flake ~/.config/home-manager && home-manager switch --flake ~/.config/home-manager#vkolli";
+    nix-up = "nh home switch -c vkolli -u";
+    nix-dry = "nh home switch -c vkolli --dry";
 
     # scoop update
     scoop-up = "powershell.exe -Command 'scoop update *; scoop cleanup *; scoop cache rm *'";
