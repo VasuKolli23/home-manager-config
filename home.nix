@@ -171,7 +171,7 @@
     # Nix
     NIX_SSL_CERT_FILE   = "/etc/ssl/certs/ca-certificates.crt";
     NIX_PATH            = "nixpkgs=flake:nixpkgs";
-    FLAKE               = "$HOME/.config/home-manager";
+    NH_FLAKE               = "$HOME/.config/home-manager";
 
     # aider variables
     OLLAMA_API_BASE = "http://127.0.0.1:11434";
@@ -200,7 +200,7 @@
 
     # ── Nix convenience ──
     nix-up = "nh home switch -c vkolli -u";
-    nix-dry = "nh home switch -c vkolli --dry";
+    nix-dry = "nh home switch -c vkolli -u --dry";
 
     # scoop update
     scoop-up = "powershell.exe -Command 'scoop update *; scoop cleanup *; scoop cache rm *'";
