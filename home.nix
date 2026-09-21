@@ -142,14 +142,11 @@
     VISUAL  = "nvim";
     BROWSER = "wslview";
 
-    # WSLg / Wayland support
-    DISPLAY            = ":0";
-    WAYLAND_DISPLAY    = "wayland-0";
-    XDG_RUNTIME_DIR    = "/run/user/$(id -u)";
+    # Prefer Wayland while retaining X11 fallback. WSLg supplies its
+    # display, audio, and runtime-directory connection variables.
     XDG_SESSION_TYPE   = "wayland";
     GDK_BACKEND        = "wayland,x11";      # GTK apps prefer Wayland, fall back to X11
     QT_QPA_PLATFORM    = "wayland;xcb";      # Qt apps same
-    PULSE_SERVER       = "unix:/mnt/wslg/runtime-dir/pulse/native"; # audio via WSLg
 
     # ── VA-API for NVIDIA GPU in WSL2 ────────────────────────────────
     # WSL2 exposes the GPU through Mesa's D3D12 VAAPI backend (NVIDIA does
@@ -175,10 +172,6 @@
     # aider variables
     OLLAMA_API_BASE = "http://127.0.0.1:11434";
   };
-
-  home.sessionVariablesExtra = ''
-    export LD_LIBRARY_PATH="/usr/lib/wsl/lib''${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
-  '';
 
   home.shellAliases = {
     # ── WSL / Rosen SSH ──
