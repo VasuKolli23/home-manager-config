@@ -1,10 +1,6 @@
-{ config, pkgs, nixgl, lazyvim, inputs, ... }:
+{ config, pkgs, nixgl, inputs, ... }:
 
 {
-  imports = [
-    lazyvim.homeManagerModules.default
-  ];
-
   home.username = "vkolli";
   home.homeDirectory = "/home/vkolli";
   home.stateVersion = "25.11";
@@ -38,12 +34,17 @@
     '';
     # Maps 'nixpkgs' in the CLI to your flake's nixpkgs input
     registry.nixpkgs.flake = inputs.nixpkgs;
+  };
 
-    # garbage collection
-    gc = {
-      automatic = true;
+  # ── nh: garbage collection ───────────────────────────────────────────
+  # Replaces the built-in nix.gc with nh's cleaner.
+  programs.nh = {
+    enable = true;
+    flake = "${config.home.homeDirectory}/.config/home-manager";
+    clean = {
+      enable = true;
       dates = "daily";
-      options = "--delete-older-than 3d";
+      extraArgs = "--keep 3";
     };
   };
 
@@ -69,7 +70,6 @@
     lazygit
     fastfetch
     tree
-    nh
 
     # nix language
     nixd
@@ -171,7 +171,6 @@
     # Nix
     NIX_SSL_CERT_FILE   = "/etc/ssl/certs/ca-certificates.crt";
     NIX_PATH            = "nixpkgs=flake:nixpkgs";
-    NH_FLAKE               = "$HOME/.config/home-manager";
 
     # aider variables
     OLLAMA_API_BASE = "http://127.0.0.1:11434";
@@ -247,19 +246,6 @@
       }
     '';
   };
-
-  # ── Lazyvim + Neovim ──────────────────────────────────────────────
-  # programs.lazyvim = {
-  #   enable = true;
-  #   extras = {
-  #   lang.nix.enable = true;
-  #   lang.python = {
-  #     enable = true;
-  #     installDependencies = true;        # Install ruff
-  #     installRuntimeDependencies = true; # Install python3
-  #     };
-  #   };
-  # };
 
   # ── Starship prompt ──────────────────────────────────────────────────
   # Replaces the entire PS1 / color_prompt / debian_chroot / xterm title
