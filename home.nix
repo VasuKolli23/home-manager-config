@@ -458,7 +458,7 @@
     };
     Service = {
       # Points to the Nix-installed ollama binary
-      ExecStart = "${pkgs.ollama.override { acceleration = "cuda"; }}/bin/ollama serve";
+      ExecStart = "${pkgs.ollama-cuda}/bin/ollama serve";
       Restart = "always";
       RestartSec = "3";
       # Optional: Add any environment variables you want here
