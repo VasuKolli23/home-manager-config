@@ -78,10 +78,6 @@
     # cleaning
     bleachbit
 
-    # latex
-    texliveFull
-    texstudio
-
     # FEM packages
     (config.lib.nixGL.wrap gmsh)
     python313Packages.meshio
@@ -138,8 +134,6 @@
     GCC_COLORS = "error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01";
 
     # default editor
-    EDITOR  = "nvim";
-    VISUAL  = "nvim";
     BROWSER = "wslview";
 
     # Prefer Wayland while retaining X11 fallback. WSLg supplies its
