@@ -1,6 +1,8 @@
 { config, pkgs, nixgl, inputs, ... }:
 
 {
+  imports = [ ./modules/nixvim.nix ];
+
   home.username = "vkolli";
   home.homeDirectory = "/home/vkolli";
   home.stateVersion = "25.11";
@@ -70,6 +72,7 @@
     lazygit
     fastfetch
     tree
+    wl-clipboard
 
     # nix language
     nixd
@@ -225,8 +228,7 @@
         sudo apt-get autoremove -y
 
         echo -e "\n--- Updating Nix Packages ---"
-        nix flake update --flake /home/vkolli/.config/home-manager
-        home-manager switch --flake /home/vkolli/.config/home-manager#vkolli
+        nh home switch -c vkolli -u
 
         echo -e "\n--- ALL UPDATES COMPLETE ---"
         exec bash
@@ -303,7 +305,7 @@
 
   # ── ripgrep  ─────────────────────────────────────────────────────────────
   programs.ripgrep.enable = true;
-
+  
   # ── yazi terminal file manager  ─────────────────────────────────────────
   programs.yazi = {
     enable = true;

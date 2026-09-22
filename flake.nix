@@ -15,9 +15,12 @@
       url = "github:nix-community/nixGL";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Nixvim
+    nixvim.url = "github:nix-community/nixvim";
   };
 
-  outputs = { nixpkgs, home-manager, nixgl, ... }@inputs:
+  outputs = { nixpkgs, home-manager, nixgl, nixvim, ... }@inputs:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
@@ -28,7 +31,10 @@
         extraSpecialArgs = { inherit nixgl inputs; };
 
         # Specify your home configuration modules here
-        modules = [ ./home.nix ];
+        modules = [
+          nixvim.homeModules.nixvim
+          ./home.nix
+        ];
       };
     };
 }
