@@ -108,6 +108,26 @@
     ollama-cuda
     open-webui
     ffmpeg
+
+    # ── GUI: Vivaldi with proprietary codecs ─────────────────────────
+    (vivaldi.override {
+      proprietaryCodecs = true;
+      enableWidevine    = true;
+      commandLineArgs   = [
+        # 1. Use Wayland natively (WSLg uses Wayland)
+        "--ozone-platform-hint=auto"
+        "--enable-features=UseOzonePlatform"
+
+        # 2. Disable native GPU rendering to prevent the /dev/dri crash
+        "--disable-gpu"
+        "--disable-software-rasterizer"
+
+        # (Optional) Fixes blurry fonts in WSLg for some users
+        "--force-device-scale-factor=1"
+      ];
+    })
+    # VA-API diagnostics: run `vainfo` to check decoder profiles
+    libva-utils
   ];
 
   # ── Environment Variables (shell-agnostic) ───────────────────────────
