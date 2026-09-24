@@ -37,6 +37,7 @@
       };
     };
     plugins.gitsigns.enable = true;
+    plugins.indent-blankline.enable = true;
     plugins.neogit.enable = true;
     plugins.diffview.enable = true;
     plugins.treesitter = {
@@ -289,6 +290,12 @@
         action = "<cmd>set invrelativenumber<CR>";
         mode = "n";
         options.desc = "Toggle relative line numbers";
+      }
+      {
+        key = "<leader>ti";
+        action = "<cmd>IBLToggle<CR>";
+        mode = "n";
+        options.desc = "Toggle indent guides";
       }
     ];
   };

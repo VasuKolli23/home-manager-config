@@ -92,8 +92,8 @@
     apptainer
 
     # Tools for handling container images
-    skopeo      # Great for copying container images to tarballs
-    dive        # Useful for inspecting docker/OCI image layers
+    skopeo # Great for copying container images to tarballs
+    dive # Useful for inspecting docker/OCI image layers
 
     # development environemnt
     devenv
@@ -108,26 +108,6 @@
     ollama-cuda
     open-webui
     ffmpeg
-
-    # ── GUI: Vivaldi with proprietary codecs ─────────────────────────
-    (vivaldi.override {
-      proprietaryCodecs = true;
-      enableWidevine    = true;
-      commandLineArgs   = [
-        # 1. Use Wayland natively (WSLg uses Wayland)
-        "--ozone-platform-hint=auto"
-        "--enable-features=UseOzonePlatform"
-
-        # 2. Disable native GPU rendering to prevent the /dev/dri crash
-        "--disable-gpu"
-        "--disable-software-rasterizer"
-
-        # (Optional) Fixes blurry fonts in WSLg for some users
-        "--force-device-scale-factor=1"
-      ];
-    })
-    # VA-API diagnostics: run `vainfo` to check decoder profiles
-    libva-utils
   ];
 
   # ── Environment Variables (shell-agnostic) ───────────────────────────
@@ -141,9 +121,9 @@
 
     # Prefer Wayland while retaining X11 fallback. WSLg supplies its
     # display, audio, and runtime-directory connection variables.
-    XDG_SESSION_TYPE   = "wayland";
-    GDK_BACKEND        = "wayland,x11";      # GTK apps prefer Wayland, fall back to X11
-    QT_QPA_PLATFORM    = "wayland;xcb";      # Qt apps same
+    XDG_SESSION_TYPE = "wayland";
+    GDK_BACKEND = "wayland,x11"; # GTK apps prefer Wayland, fall back to X11
+    QT_QPA_PLATFORM = "wayland;xcb"; # Qt apps same
 
     # ── VA-API for NVIDIA GPU in WSL2 ────────────────────────────────
     # WSL2 exposes the GPU through Mesa's D3D12 VAAPI backend (NVIDIA does
@@ -151,20 +131,20 @@
     # Setting LIBVA_DRIVER_NAME=d3d12 tells libva to use that backend.
     # MESA_D3D12_DEFAULT_ADAPTER_NAME=NVIDIA ensures it picks the right
     # adapter when multiple GPUs are present on the Windows host.
-    LIBVA_DRIVER_NAME               = "d3d12";
+    LIBVA_DRIVER_NAME = "d3d12";
     MESA_D3D12_DEFAULT_ADAPTER_NAME = "NVIDIA";
-    VTK_SMP_IMPLEMENTATION_NAME     = "TBB";
+    VTK_SMP_IMPLEMENTATION_NAME = "TBB";
 
     # SSL / Certificates
-    SSL_CERT_FILE       = "/etc/ssl/certs/ca-certificates.crt";
-    SSL_CERT_DIR        = "/etc/ssl/certs";
-    CURL_CA_BUNDLE      = "/etc/ssl/certs/ca-certificates.crt";
-    REQUESTS_CA_BUNDLE  = "/etc/ssl/certs/ca-certificates.crt";
+    SSL_CERT_FILE = "/etc/ssl/certs/ca-certificates.crt";
+    SSL_CERT_DIR = "/etc/ssl/certs";
+    CURL_CA_BUNDLE = "/etc/ssl/certs/ca-certificates.crt";
+    REQUESTS_CA_BUNDLE = "/etc/ssl/certs/ca-certificates.crt";
     NODE_EXTRA_CA_CERTS = "/etc/ssl/certs/ca-certificates.crt";
 
     # Nix
-    NIX_SSL_CERT_FILE   = "/etc/ssl/certs/ca-certificates.crt";
-    NIX_PATH            = "nixpkgs=flake:nixpkgs";
+    NIX_SSL_CERT_FILE = "/etc/ssl/certs/ca-certificates.crt";
+    NIX_PATH = "nixpkgs=flake:nixpkgs";
 
     # aider variables
     OLLAMA_API_BASE = "http://127.0.0.1:11434";
@@ -172,9 +152,9 @@
 
   home.shellAliases = {
     # ── WSL / Rosen SSH ──
-    win-ssh     = "/mnt/c/Windows/System32/OpenSSH/ssh.exe";
-    win-scp     = "/mnt/c/Windows/System32/OpenSSH/scp.exe";
-    win-sftp    = "/mnt/c/Windows/System32/OpenSSH/sftp.exe";
+    win-ssh = "/mnt/c/Windows/System32/OpenSSH/ssh.exe";
+    win-scp = "/mnt/c/Windows/System32/OpenSSH/scp.exe";
+    win-sftp = "/mnt/c/Windows/System32/OpenSSH/sftp.exe";
 
     # cluster
     start-pageant = ''(cd /mnt/c && cmd.exe /c "start pageant.exe --openssh-config %userprofile%\\.ssh\\pageant.conf")'';
@@ -243,8 +223,8 @@
     enable = true;
     settings = {
       directory = {
-        truncation_length   = 0;     # 0 = never truncate
-        truncate_to_repo    = false; # don't stop at the git repo root
+        truncation_length = 0; # 0 = never truncate
+        truncate_to_repo = false; # don't stop at the git repo root
         fish_style_pwd_dir_length = 0; # disable fish-style shortening
       };
     };
@@ -284,7 +264,7 @@
   programs.direnv = {
     enable = true;
     enableBashIntegration = true;
-    nix-direnv.enable = true;  # caches nix shells so they don't rebuild every time
+    nix-direnv.enable = true; # caches nix shells so they don't rebuild every time
   };
 
   # ── fuzzy finder  ─────────────────────────────────────────────────────────────
@@ -305,7 +285,7 @@
 
   # ── ripgrep  ─────────────────────────────────────────────────────────────
   programs.ripgrep.enable = true;
-  
+
   # ── yazi terminal file manager  ─────────────────────────────────────────
   programs.yazi = {
     enable = true;
@@ -329,7 +309,7 @@
           # "*/" matches directories
           { url = "*/"; use = [ "vscode" "edit" "open" "reveal" ]; }
           # "*" matches everything else
-          { url = "*";  use = [ "vscode" "edit" "open" "reveal" ]; }
+          { url = "*"; use = [ "vscode" "edit" "open" "reveal" ]; }
         ];
       };
     };
@@ -341,7 +321,7 @@
 
     settings = {
       user = {
-        name  = "Vasu Kolli";
+        name = "Vasu Kolli";
         email = "vkolli@rosen-group.com";
       };
       init.defaultBranch = "master";
@@ -389,36 +369,36 @@
   # ── opencode ────────────────────────────────────────────
   programs.opencode = {
     enable = true;
-    
+
     # Core runtime configuration (opencode.json)
     settings = {
       autoupdate = false;
       share = "disabled";
       default_agent = "plan";
-      
+
       # 1. Set your default model here so OpenCode knows to use it
       model = "qwen3.8:27b-mtp-q4_K_M";
-      
+
       permission = {
         "bash" = "ask";
         "edit" = "ask";
       };
       lsp = true;
       formatter = true;
-  
+
       # 2. The provider block MUST be inside settings
       provider = {
         ollama = {
           # OpenCode uses the AI SDK to connect to OpenAI-compatible endpoints
           npm = "@ai-sdk/openai-compatible";
           name = "Ollama (Local)";
-          
+
           # 3. options and models MUST be inside the ollama block
           options = {
             # The /v1 is strictly required for the OpenAI compatibility layer
             baseURL = "http://127.0.0.1:11434/v1";
-          };           
-          
+          };
+
           # Explicitly declare your local models here
           models = {
             "qwen3.8:27b-mtp-q4_K_M" = {
@@ -428,7 +408,7 @@
         }; # <--- ollama block closes here now
       };
     };
-  
+
     # Terminal UI configuration (tui.json)
     tui = {
       theme = "one-dark";
@@ -439,7 +419,7 @@
       };
     };
   };
-    # ── background services ────────────────────────────────────────────
+  # ── background services ────────────────────────────────────────────
   systemd.user.services.ollama = {
     Unit = {
       Description = "Ollama AI Service";
@@ -462,27 +442,27 @@
   };
 
   systemd.user.services.open-webui = {
-      Unit = {
-        Description = "Open WebUI for Ollama";
-        # This ensures Open WebUI waits for Ollama to start first
-        After = [ "ollama.service" ];
-        Wants = [ "ollama.service" ];
-      };
-      Service = {
-        # Run the open-webui binary
-        ExecStart = "${pkgs.open-webui}/bin/open-webui serve";
-        Restart = "always";
-        RestartSec = "5";
-        Environment = [
-          # Point it to your local Ollama
-          "OLLAMA_BASE_URL=http://127.0.0.1:11434"
-          # The port you will use to access it from Windows (default is 8080)
-          "PORT=8080"
-          # %h is systemd shorthand for your home directory.
-          # This saves your chat history safely in ~/.local/share/open-webui
-          "DATA_DIR=%h/.local/share/open-webui"
-        ];
-      };
-      Install = { WantedBy = [ "default.target" ]; };
+    Unit = {
+      Description = "Open WebUI for Ollama";
+      # This ensures Open WebUI waits for Ollama to start first
+      After = [ "ollama.service" ];
+      Wants = [ "ollama.service" ];
     };
-  }
+    Service = {
+      # Run the open-webui binary
+      ExecStart = "${pkgs.open-webui}/bin/open-webui serve";
+      Restart = "always";
+      RestartSec = "5";
+      Environment = [
+        # Point it to your local Ollama
+        "OLLAMA_BASE_URL=http://127.0.0.1:11434"
+        # The port you will use to access it from Windows (default is 8080)
+        "PORT=8080"
+        # %h is systemd shorthand for your home directory.
+        # This saves your chat history safely in ~/.local/share/open-webui
+        "DATA_DIR=%h/.local/share/open-webui"
+      ];
+    };
+    Install = { WantedBy = [ "default.target" ]; };
+  };
+}

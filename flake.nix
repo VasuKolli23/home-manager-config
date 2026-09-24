@@ -6,10 +6,10 @@
 
     # Home Manager
     home-manager = {
-      url = "github:nix-community/home-manager"; 
-      inputs.nixpkgs.follows = "nixpkgs"; 
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
-    
+
     # nixgl
     nixgl = {
       url = "github:nix-community/nixGL";
@@ -24,7 +24,8 @@
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
-    in {
+    in
+    {
       homeConfigurations.vkolli = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
 
