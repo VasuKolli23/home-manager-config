@@ -336,6 +336,9 @@
   };
 
   # ── Git ────────────────────────────────────────────────────────────
+  # No global user/credential settings here on purpose: this repo's identity
+  # and GitHub credential helper are scoped below via includeIf so they only
+  # apply inside ~/.config/home-manager and never leak into corporate repos.
   programs.git = {
     enable = true;
 
@@ -350,18 +353,32 @@
 
       includeIf."gitdir:~/.config/home-manager/".path = "~/.config/git/personal";
 
-      # Store GitHub credentials so you don't type the token every time
-      credential."https://github.com" = {
-        helper = "store";
+      # Avoids repeated credential prompts against TFS (tfs.roseninspection.net) over HTTPS
+      http.emptyauth = true;
+
+      # Corporate Azure DevOps/TFS auth via Windows Git Credential Manager
+      credential."https://dev.azure.com" = {
+        authority = "aad";
+        azreposCredentialType = "oauth";
+        helper = "/mnt/c/Program Files/Git/mingw64/bin/git-credential-manager.exe";
+        msauthUseBroker = "true";
+        provider = "azure-repos";
+        useHttpPath = "true";
       };
+
+      lfs."https://dev.azure.com".locksverify = "true";
     };
   };
 
-  # ── Personal Git identity (used only in home-manager repo) ─────────
+  # ── Personal Git identity + credentials (used only in home-manager repo) ──
   home.file.".config/git/personal".text = ''
     [user]
       name  = Vasu Kolli
       email = vasukolli23@gmail.com
+
+    # Store GitHub credentials so you don't type the token every time
+    [credential "https://github.com"]
+      helper = store
   '';
 
   # ── SSH config (corporate TFS only, no GitHub) ─────────────────────
