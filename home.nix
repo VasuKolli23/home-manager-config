@@ -114,11 +114,11 @@
       proprietaryCodecs = true;
       enableWidevine    = true;
       commandLineArgs   = [
-        # 1. Use Wayland natively (WSLg uses Wayland)
-        "--ozone-platform-hint=auto"
-        "--enable-features=UseOzonePlatform"
+        # WSL exposes /dev/dxg, not the /dev/dri nodes Chromium's native
+        # Wayland backend probes. WSLg provides XWayland as the fallback.
+        "--ozone-platform=x11"
 
-        # 2. Disable native GPU rendering to prevent the /dev/dri crash
+        # Disable native GPU rendering to prevent the /dev/dri crash
         "--disable-gpu"
         "--disable-software-rasterizer"
 
