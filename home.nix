@@ -273,10 +273,20 @@
   # ── Btop ─────────────────────────────────────────────────────────────
   programs.btop = {
     enable = true;
+    package = (pkgs.btop.override {
+      cudaSupport = true;
+    }).overrideAttrs (oldAttrs: {
+      nativeBuildInputs = (oldAttrs.nativeBuildInputs or [ ]) ++ [ pkgs.makeWrapper ];
+      postFixup = (oldAttrs.postFixup or "") + ''
+        wrapProgram $out/bin/btop \
+          --prefix LD_LIBRARY_PATH : /usr/lib/wsl/lib
+      '';
+    });
     settings = {
       color_theme = "dracula";
       theme_background = false;
-      shown_boxes = "cpu mem proc";
+      shown_boxes = "cpu mem proc gpu0";
+      show_gpu_info = "Auto";
     };
   };
 
