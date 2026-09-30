@@ -178,7 +178,7 @@
 
     # cluster
     start-pageant = ''(cd /mnt/c && cmd.exe /c "start pageant.exe --openssh-config %userprofile%\\.ssh\\pageant.conf")'';
-    linuxphys02 = "/mnt/c/Windows/System32/OpenSSH/ssh.exe linuxphys02.roseninspection.net";
+    linuxphys02 = ''(cd /mnt/c && cmd.exe /c "ssh -F %userprofile%\\.ssh\\pageant.conf linuxphys02.roseninspection.net")'';
 
     # ── Quick reload ──
     s = "source $HOME/.bashrc";
@@ -188,8 +188,9 @@
     nuke-podman = "podman system reset -f";
 
     # ── Nix convenience ──
-    nix-up = "nh home switch -c vkolli -u";
-    nix-dry = "nh home switch -c vkolli -u --dry";
+    nix-flake-up = "nix flake update --flake ~/.config/home-manager";
+    nix-up = "nh home switch -c vkolli --no-update-lock-file";
+    nix-dry = "nh home switch -c vkolli --no-update-lock-file --dry";
 
     # scoop update
     scoop-up = "powershell.exe -Command 'scoop update *; scoop cleanup *; scoop cache rm *'";
