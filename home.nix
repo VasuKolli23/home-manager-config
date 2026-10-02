@@ -228,9 +228,6 @@
         sudo nala upgrade -y
         sudo apt-get autoremove -y
 
-        echo -e "\n--- Updating Nix Packages ---"
-        nh home switch -c vkolli -u
-
         echo -e "\n--- ALL UPDATES COMPLETE ---"
         exec bash
       }
