@@ -69,6 +69,7 @@
   home.packages = with pkgs; [
     # misc
     fd
+    jq
     lazygit
     fastfetch
     tree
@@ -190,7 +191,6 @@
     # ── Nix convenience ──
     nix-flake-up = "nix flake update --flake ~/.config/home-manager";
     nix-up = "nh home switch -c vkolli --no-update-lock-file";
-    nix-dry = "nh home switch -c vkolli --no-update-lock-file --dry";
 
     # scoop update
     scoop-up = "powershell.exe -Command 'scoop update *; scoop cleanup *; scoop cache rm *'";
