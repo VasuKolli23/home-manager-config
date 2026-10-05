@@ -191,6 +191,7 @@
     # ── Nix convenience ──
     nix-flake-up = "nix flake update --flake ~/.config/home-manager";
     nix-up = "nh home switch -c vkolli --no-update-lock-file";
+    nix-dry = "home-manager build --flake ~/.config/home-manager#vkolli --recreate-lock-file --no-write-lock-file";
 
     # scoop update
     scoop-up = "powershell.exe -Command 'scoop update *; scoop cleanup *; scoop cache rm *'";
