@@ -136,6 +136,12 @@
         options.desc = "Exit insert mode";
       }
       {
+        key = "<leader>fs";
+        action = "<cmd>write<CR>";
+        mode = "n";
+        options.desc = "Save file";
+      }
+      {
         key = "<leader>ff";
         action = "<cmd>lua Snacks.picker.files()<CR>";
         mode = "n";
