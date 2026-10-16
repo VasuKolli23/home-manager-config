@@ -29,15 +29,7 @@
       jsonls.enable = true;
     };
     plugins.lsp.enable = true;
-    plugins.lualine = {
-      enable = true;
-      settings.options = {
-        section_separators = { left = ""; right = ""; };
-        component_separators = { left = ""; right = ""; };
-      };
-    };
-    plugins.gitsigns.enable = true;
-    plugins.indent-blankline.enable = true;
+
     plugins.neogit.enable = true;
     plugins.diffview.enable = true;
     plugins.treesitter = {
@@ -55,18 +47,21 @@
     };
     plugins.mini = {
       enable = true;
-      modules.surround = { };
-    };
-    plugins.nvim-autopairs.enable = true;
-    plugins.trouble.enable = true;
-    plugins.toggleterm = {
-      enable = true;
-      settings.direction = "float";
+      mockDevIcons = true;
+      modules = {
+        surround = { };
+        pairs = { };
+        icons = { };
+        statusline = { };
+        diff = { };
+      };
     };
     plugins.snacks = {
       enable = true;
       settings = {
         picker.enabled = true;
+        terminal.enabled = true;
+        indent.enabled = true;
         dashboard = {
           enabled = true;
           sections = [
@@ -101,7 +96,6 @@
         };
       };
     };
-    plugins.web-devicons.enable = true;
     plugins.which-key = {
       enable = true;
       settings.spec = [
@@ -227,25 +221,25 @@
       }
       {
         key = "<leader>xx";
-        action = "<cmd>Trouble diagnostics toggle<CR>";
+        action = "<cmd>lua Snacks.picker.diagnostics()<CR>";
         mode = "n";
         options.desc = "Workspace diagnostics";
       }
       {
         key = "<leader>xX";
-        action = "<cmd>Trouble diagnostics toggle filter.buf=0<CR>";
+        action = "<cmd>lua Snacks.picker.diagnostics_buffer()<CR>";
         mode = "n";
         options.desc = "Buffer diagnostics";
       }
       {
         key = "<leader>xs";
-        action = "<cmd>Trouble symbols toggle focus=false<CR>";
+        action = "<cmd>lua Snacks.picker.lsp_symbols()<CR>";
         mode = "n";
         options.desc = "Document symbols";
       }
       {
         key = "<leader>xr";
-        action = "<cmd>Trouble lsp toggle focus=false win.position=right<CR>";
+        action = "<cmd>lua Snacks.picker.lsp_references()<CR>";
         mode = "n";
         options.desc = "LSP references";
       }
@@ -269,13 +263,13 @@
       }
       {
         key = "<leader>tf";
-        action = "<cmd>ToggleTerm<CR>";
+        action = "<cmd>lua Snacks.terminal(nil, { count = 1, win = { position = 'float' } })<CR>";
         mode = "n";
         options.desc = "Toggle floating terminal";
       }
       {
         key = "<leader>tv";
-        action = "<cmd>ToggleTerm direction=vertical<CR>";
+        action = "<cmd>lua Snacks.terminal(nil, { count = 2, win = { position = 'right' } })<CR>";
         mode = "n";
         options.desc = "Toggle vertical terminal";
       }
@@ -299,7 +293,7 @@
       }
       {
         key = "<leader>ti";
-        action = "<cmd>IBLToggle<CR>";
+        action = "<cmd>lua Snacks.toggle.indent():toggle()<CR>";
         mode = "n";
         options.desc = "Toggle indent guides";
       }
