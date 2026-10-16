@@ -99,6 +99,7 @@
     # development environemnt
     devenv
     devbox
+    openmpi
 
     # kubernetes
     openshift
