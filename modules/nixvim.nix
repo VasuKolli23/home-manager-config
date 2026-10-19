@@ -268,6 +268,12 @@
         options.desc = "Toggle floating terminal";
       }
       {
+        key = "<C-q>";
+        action = "<C-\\><C-n>";
+        mode = "t";
+        options.desc = "Terminal normal mode";
+      }
+      {
         key = "<leader>tv";
         action = "<cmd>lua Snacks.terminal(nil, { count = 2, win = { position = 'right' } })<CR>";
         mode = "n";
