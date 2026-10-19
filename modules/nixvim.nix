@@ -263,7 +263,7 @@
       }
       {
         key = "<leader>tf";
-        action = "<cmd>lua Snacks.terminal(nil, { count = 1, win = { position = 'float' } })<CR>";
+        action = "<cmd>lua Snacks.terminal(nil, { count = 1, win = { position = 'float', border = 'rounded' } })<CR>";
         mode = "n";
         options.desc = "Toggle floating terminal";
       }
