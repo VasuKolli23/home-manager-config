@@ -53,6 +53,7 @@
         pairs = { };
         icons = { };
         statusline = { };
+        tabline = { };
         diff = { };
       };
     };
@@ -102,6 +103,10 @@
         {
           __unkeyed-1 = "<leader>f";
           group = "Files";
+        }
+        {
+          __unkeyed-1 = "<leader>b";
+          group = "Buffers";
         }
         {
           __unkeyed-1 = "<leader>t";
@@ -164,6 +169,30 @@
         action = "<cmd>lua Snacks.picker.recent()<CR>";
         mode = "n";
         options.desc = "Recent files";
+      }
+      {
+        key = "<leader>bn";
+        action = "<cmd>bnext<CR>";
+        mode = "n";
+        options.desc = "Next buffer";
+      }
+      {
+        key = "<leader>bp";
+        action = "<cmd>bprevious<CR>";
+        mode = "n";
+        options.desc = "Previous buffer";
+      }
+      {
+        key = "<leader>bs";
+        action = "<cmd>write<CR>";
+        mode = "n";
+        options.desc = "Save current buffer";
+      }
+      {
+        key = "<leader>ba";
+        action = "<cmd>wall<CR>";
+        mode = "n";
+        options.desc = "Save all buffers";
       }
       {
         key = "<leader>e";
