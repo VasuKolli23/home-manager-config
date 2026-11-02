@@ -16,6 +16,8 @@
     libtool
     gcc
     shellcheck
+    # fonts
+    nerd-fonts.jetbrains-mono
   ];
 
   home.sessionPath = [ "${config.xdg.configHome}/emacs/bin" ];
