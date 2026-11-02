@@ -1,7 +1,7 @@
 { config, pkgs, nixgl, inputs, ... }:
 
 {
-  imports = [ ./modules/nixvim.nix ];
+  imports = [ ./modules/nixvim.nix ./modules/doom.nix ];
 
   home.username = "vkolli";
   home.homeDirectory = "/home/vkolli";
