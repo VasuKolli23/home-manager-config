@@ -9,6 +9,7 @@
 
     opts = {
       number = true;
+      relativenumber = true;
       clipboard = "unnamedplus";
       mouse = "a";
       signcolumn = "yes";
@@ -20,6 +21,17 @@
     };
 
     colorschemes.onedark.enable = true;
+
+    autoCmd = [
+      {
+        event = "TextYankPost";
+        callback.__raw = ''
+          function()
+            vim.highlight.on_yank({ higroup = "IncSearch", timeout = 200 })
+          end
+        '';
+      }
+    ];
     plugins.lsp.servers = {
       nixd.enable = true;
       pyright.enable = true;
@@ -171,6 +183,10 @@
           __unkeyed-1 = "<leader><tab>";
           group = "Workspaces";
         }
+        {
+          __unkeyed-1 = "<leader>q";
+          group = "Quit";
+        }
       ];
     };
 
@@ -219,6 +235,12 @@
         options.desc = "Recent files";
       }
       # ---------- Buffers ----------
+      {
+        key = "<leader>bl";
+        action = "<cmd>lua Snacks.picker.buffers()<CR>";
+        mode = "n";
+        options.desc = "List buffers";
+      }
       {
         key = "<leader>bn";
         action = "<cmd>bnext<CR>";
@@ -431,6 +453,31 @@
         action = "<cmd>lua Snacks.toggle.indent():toggle()<CR>";
         mode = "n";
         options.desc = "Toggle indent guides";
+      }
+      # ---------- Quit ----------
+      {
+        key = "<leader>qq";
+        action = "<cmd>qa<CR>";
+        mode = "n";
+        options.desc = "Quit";
+      }
+      {
+        key = "<leader>qr";
+        action = "<cmd>restart<CR>";
+        mode = "n";
+        options.desc = "Restart";
+      }
+      {
+        key = "<leader>qR";
+        action.__raw = ''
+          function()
+            local file = vim.fn.stdpath("state") .. "/restart-session.vim"
+            vim.cmd("mksession! " .. vim.fn.fnameescape(file))
+            vim.cmd("restart source " .. vim.fn.fnameescape(file))
+          end
+        '';
+        mode = "n";
+        options.desc = "Restart and restore everything";
       }
       # ---------- Misc ----------
       {
