@@ -47,6 +47,7 @@
 
     plugins.scope.enable = true;
     plugins.oil.enable = true;
+    plugins.flash.enable = true;
     plugins.telescope = {
       enable = true;
       extensions.file-browser = {
@@ -197,6 +198,13 @@
     };
 
     keymaps = [
+      # ---------- Motion ----------
+      {
+        key = "gs<Space>";
+        action.__raw = "function() require('flash').jump() end";
+        mode = [ "n" "x" "o" ];
+        options.desc = "Flash jump";
+      }
       # ---------- Buffers ----------
       {
         key = "<leader>ba";
