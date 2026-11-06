@@ -3,6 +3,8 @@
 {
   programs.nixvim = {
     enable = true;
+    viAlias = true;
+    vimAlias = true;
     nixpkgs.config.allowUnfree = true;
     globals.mapleader = " ";
     globals.maplocalleader = " ";
@@ -225,6 +227,12 @@
         action = "<cmd>bprevious<CR>";
         mode = "n";
         options.desc = "Previous buffer";
+      }
+      {
+        key = "<leader>br";
+        action = "<cmd>edit<CR>";
+        mode = "n";
+        options.desc = "Revert buffer";
       }
       {
         key = "<leader>bs";

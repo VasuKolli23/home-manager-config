@@ -136,7 +136,10 @@
   home.sessionVariables = {
     GCC_COLORS = "error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01";
 
-    # default editor
+    EDITOR = "nvim";
+    VISUAL = "nvim";
+    SUDO_EDITOR = "nvim";
+
     BROWSER = "wslview";
 
     # Prefer Wayland while retaining X11 fallback. WSLg supplies its
@@ -215,6 +218,8 @@
     ];
 
     initExtra = ''
+      set -o vi
+
       # ── up-all function ──
       up-all() {
         echo "--- Updating Windows Scoop Packages ---"
