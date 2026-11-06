@@ -156,85 +156,58 @@
       enable = true;
       settings.spec = [
         {
-          __unkeyed-1 = "<leader>f";
-          group = "Files";
-        }
-        {
           __unkeyed-1 = "<leader>b";
           group = "Buffers";
-        }
-        {
-          __unkeyed-1 = "<leader>t";
-          group = "Toggle";
         }
         {
           __unkeyed-1 = "<leader>x";
           group = "Diagnostics";
         }
         {
-          __unkeyed-1 = "<leader>w";
-          group = "Window";
+          __unkeyed-1 = "<leader>f";
+          group = "Files";
         }
         {
           __unkeyed-1 = "<leader>g";
           group = "Git";
         }
         {
-          __unkeyed-1 = "<leader><tab>";
-          group = "Workspaces";
+          __unkeyed-1 = "<leader>o";
+          group = "Open";
         }
         {
           __unkeyed-1 = "<leader>q";
           group = "Quit";
         }
+        {
+          __unkeyed-1 = "<leader>t";
+          group = "Toggle";
+        }
+        {
+          __unkeyed-1 = "<leader>w";
+          group = "Window";
+        }
+        {
+          __unkeyed-1 = "<leader><tab>";
+          group = "Workspaces";
+        }
       ];
     };
 
     keymaps = [
-      # ---------- Files ----------
-      {
-        key = "<leader>fs";
-        action = "<cmd>write<CR>";
-        mode = "n";
-        options.desc = "Save file";
-      }
-      {
-        key = "<leader>ff";
-        action = "<cmd>Telescope file_browser path=%:p:h select_buffer=true<CR>";
-        mode = "n";
-        options.desc = "Browse files";
-      }
-      {
-        key = "<leader>fp";
-        action = "<cmd>lua Snacks.picker.files()<CR>";
-        mode = "n";
-        options.desc = "Find project files";
-      }
-      {
-        key = "<leader>fg";
-        action = "<cmd>lua Snacks.picker.grep()<CR>";
-        mode = "n";
-        options.desc = "Live grep";
-      }
-      {
-        key = "<leader>fb";
-        action = "<cmd>lua Snacks.picker.buffers()<CR>";
-        mode = "n";
-        options.desc = "Find buffers";
-      }
-      {
-        key = "<leader>fh";
-        action = "<cmd>lua Snacks.picker.help()<CR>";
-        mode = "n";
-        options.desc = "Search help";
-      }
-      {
-        key = "<leader>fr";
-        action = "<cmd>lua Snacks.picker.recent()<CR>";
-        mode = "n";
-        options.desc = "Recent files";
-      }
       # ---------- Buffers ----------
+      {
+        key = "<leader>ba";
+        action = "<cmd>wall<CR>";
+        mode = "n";
+        options.desc = "Save all buffers";
+      }
+      {
+        key = "<leader>bd";
+        action = "<cmd>bd<CR>";
+        mode = "n";
+        options.desc = "Delete buffer";
+      }
       {
         key = "<leader>bl";
         action = "<cmd>lua Snacks.picker.buffers()<CR>";
@@ -259,17 +232,204 @@
         mode = "n";
         options.desc = "Save current buffer";
       }
+      # ---------- Diagnostics ----------
       {
-        key = "<leader>ba";
-        action = "<cmd>wall<CR>";
+        key = "<leader>xr";
+        action = "<cmd>lua Snacks.picker.lsp_references()<CR>";
         mode = "n";
-        options.desc = "Save all buffers";
+        options.desc = "LSP references";
       }
       {
-        key = "<leader>bd";
-        action = "<cmd>bd<CR>";
+        key = "<leader>xs";
+        action = "<cmd>lua Snacks.picker.lsp_symbols()<CR>";
         mode = "n";
-        options.desc = "Delete buffer";
+        options.desc = "Document symbols";
+      }
+      {
+        key = "<leader>xx";
+        action = "<cmd>lua Snacks.picker.diagnostics()<CR>";
+        mode = "n";
+        options.desc = "Workspace diagnostics";
+      }
+      {
+        key = "<leader>xX";
+        action = "<cmd>lua Snacks.picker.diagnostics_buffer()<CR>";
+        mode = "n";
+        options.desc = "Buffer diagnostics";
+      }
+      # ---------- Files ----------
+      {
+        key = "<leader>fb";
+        action = "<cmd>lua Snacks.picker.buffers()<CR>";
+        mode = "n";
+        options.desc = "Find buffers";
+      }
+      {
+        key = "<leader>ff";
+        action = "<cmd>Telescope file_browser path=%:p:h select_buffer=true<CR>";
+        mode = "n";
+        options.desc = "Browse files";
+      }
+      {
+        key = "<leader>fg";
+        action = "<cmd>lua Snacks.picker.grep()<CR>";
+        mode = "n";
+        options.desc = "Live grep";
+      }
+      {
+        key = "<leader>fh";
+        action = "<cmd>lua Snacks.picker.help()<CR>";
+        mode = "n";
+        options.desc = "Search help";
+      }
+      {
+        key = "<leader>fp";
+        action = "<cmd>lua Snacks.picker.files()<CR>";
+        mode = "n";
+        options.desc = "Find project files";
+      }
+      {
+        key = "<leader>fr";
+        action = "<cmd>lua Snacks.picker.recent()<CR>";
+        mode = "n";
+        options.desc = "Recent files";
+      }
+      {
+        key = "<leader>fs";
+        action = "<cmd>write<CR>";
+        mode = "n";
+        options.desc = "Save file";
+      }
+      # ---------- Git ----------
+      {
+        key = "<leader>gb";
+        action = "<cmd>Neogit branch<CR>";
+        mode = "n";
+        options.desc = "Git branches";
+      }
+      {
+        key = "<leader>gc";
+        action = "<cmd>lua require('neogit').open({ 'commit' })<CR>";
+        mode = "n";
+        options.desc = "Commit changes";
+      }
+      {
+        key = "<leader>gd";
+        action = "<cmd>DiffviewOpen<CR>";
+        mode = "n";
+        options.desc = "Open diff view";
+      }
+      {
+        key = "<leader>gh";
+        action = "<cmd>DiffviewFileHistory %<CR>";
+        mode = "n";
+        options.desc = "File history";
+      }
+      {
+        key = "<leader>gl";
+        action = "<cmd>lua require('neogit').open({ 'pull' })<CR>";
+        mode = "n";
+        options.desc = "Pull changes";
+      }
+      {
+        key = "<leader>gp";
+        action = "<cmd>lua require('neogit').open({ 'push' })<CR>";
+        mode = "n";
+        options.desc = "Push changes";
+      }
+      {
+        key = "<leader>gq";
+        action = "<cmd>DiffviewClose<CR>";
+        mode = "n";
+        options.desc = "Close diff view";
+      }
+      {
+        key = "<leader>gs";
+        action = "<cmd>Neogit<CR>";
+        mode = "n";
+        options.desc = "Git status";
+      }
+      # ---------- Open ----------
+      {
+        key = "<leader>ot";
+        action = "<cmd>lua Snacks.terminal(nil, { count = 1, win = { position = 'bottom' } })<CR>";
+        mode = "n";
+        options.desc = "Toggle bottom terminal";
+      }
+      {
+        key = "<leader>oT";
+        action = "<cmd>terminal<CR>";
+        mode = "n";
+        options.desc = "Terminal in current buffer";
+      }
+      # ---------- Quit ----------
+      {
+        key = "<leader>qq";
+        action = "<cmd>qa<CR>";
+        mode = "n";
+        options.desc = "Quit";
+      }
+      {
+        key = "<leader>qr";
+        action = "<cmd>restart<CR>";
+        mode = "n";
+        options.desc = "Restart";
+      }
+      {
+        key = "<leader>qR";
+        action.__raw = ''
+          function()
+            local file = vim.fn.stdpath("state") .. "/restart-session.vim"
+            vim.cmd("mksession! " .. vim.fn.fnameescape(file))
+            vim.cmd("restart source " .. vim.fn.fnameescape(file))
+          end
+        '';
+        mode = "n";
+        options.desc = "Restart and restore everything";
+      }
+      # ---------- Toggle ----------
+      {
+        key = "<leader>ti";
+        action = "<cmd>lua Snacks.toggle.indent():toggle()<CR>";
+        mode = "n";
+        options.desc = "Toggle indent guides";
+      }
+      {
+        key = "<leader>tn";
+        action = "<cmd>set invnumber<CR>";
+        mode = "n";
+        options.desc = "Toggle line numbers";
+      }
+      {
+        key = "<leader>tr";
+        action = "<cmd>set invrelativenumber<CR>";
+        mode = "n";
+        options.desc = "Toggle relative line numbers";
+      }
+      {
+        key = "<leader>tw";
+        action = "<cmd>set invwrap<CR>";
+        mode = "n";
+        options.desc = "Toggle word wrap";
+      }
+      # ---------- Window ----------
+      {
+        key = "<leader>wc";
+        action = "<cmd>close<CR>";
+        mode = "n";
+        options.desc = "Close window";
+      }
+      {
+        key = "<leader>wv";
+        action = "<cmd>vsplit<CR>";
+        mode = "n";
+        options.desc = "Split window vertically";
+      }
+      {
+        key = "<leader>ww";
+        action = "<C-w>w";
+        mode = "n";
+        options.desc = "Next window";
       }
       # ---------- Workspaces ----------
       {
@@ -290,6 +450,12 @@
         '';
         mode = "n";
         options.desc = "List workspaces";
+      }
+      {
+        key = "<leader><tab>d";
+        action = "<cmd>tabclose<CR>";
+        mode = "n";
+        options.desc = "Close workspace";
       }
       {
         key = "<leader><tab>n";
@@ -317,167 +483,6 @@
         '';
         mode = "n";
         options.desc = "Rename workspace";
-      }
-      {
-        key = "<leader><tab>d";
-        action = "<cmd>tabclose<CR>";
-        mode = "n";
-        options.desc = "Close workspace";
-      }
-      # ---------- Git ----------
-      {
-        key = "<leader>gs";
-        action = "<cmd>Neogit<CR>";
-        mode = "n";
-        options.desc = "Git status";
-      }
-      {
-        key = "<leader>gc";
-        action = "<cmd>lua require('neogit').open({ 'commit' })<CR>";
-        mode = "n";
-        options.desc = "Commit changes";
-      }
-      {
-        key = "<leader>gp";
-        action = "<cmd>lua require('neogit').open({ 'push' })<CR>";
-        mode = "n";
-        options.desc = "Push changes";
-      }
-      {
-        key = "<leader>gl";
-        action = "<cmd>lua require('neogit').open({ 'pull' })<CR>";
-        mode = "n";
-        options.desc = "Pull changes";
-      }
-      {
-        key = "<leader>gb";
-        action = "<cmd>Neogit branch<CR>";
-        mode = "n";
-        options.desc = "Git branches";
-      }
-      {
-        key = "<leader>gd";
-        action = "<cmd>DiffviewOpen<CR>";
-        mode = "n";
-        options.desc = "Open diff view";
-      }
-      {
-        key = "<leader>gh";
-        action = "<cmd>DiffviewFileHistory %<CR>";
-        mode = "n";
-        options.desc = "File history";
-      }
-      {
-        key = "<leader>gq";
-        action = "<cmd>DiffviewClose<CR>";
-        mode = "n";
-        options.desc = "Close diff view";
-      }
-      # ---------- Diagnostics ----------
-      {
-        key = "<leader>xx";
-        action = "<cmd>lua Snacks.picker.diagnostics()<CR>";
-        mode = "n";
-        options.desc = "Workspace diagnostics";
-      }
-      {
-        key = "<leader>xX";
-        action = "<cmd>lua Snacks.picker.diagnostics_buffer()<CR>";
-        mode = "n";
-        options.desc = "Buffer diagnostics";
-      }
-      {
-        key = "<leader>xs";
-        action = "<cmd>lua Snacks.picker.lsp_symbols()<CR>";
-        mode = "n";
-        options.desc = "Document symbols";
-      }
-      {
-        key = "<leader>xr";
-        action = "<cmd>lua Snacks.picker.lsp_references()<CR>";
-        mode = "n";
-        options.desc = "LSP references";
-      }
-      # ---------- Window ----------
-      {
-        key = "<leader>wc";
-        action = "<cmd>close<CR>";
-        mode = "n";
-        options.desc = "Close window";
-      }
-      {
-        key = "<leader>wv";
-        action = "<cmd>vsplit<CR>";
-        mode = "n";
-        options.desc = "Split window vertically";
-      }
-      {
-        key = "<leader>ww";
-        action = "<C-w>w";
-        mode = "n";
-        options.desc = "Next window";
-      }
-      # ---------- Toggle ----------
-      {
-        key = "<leader>tf";
-        action = "<cmd>lua Snacks.terminal(nil, { count = 1, win = { position = 'float', border = 'rounded' } })<CR>";
-        mode = "n";
-        options.desc = "Toggle floating terminal";
-      }
-      {
-        key = "<leader>tv";
-        action = "<cmd>lua Snacks.terminal(nil, { count = 2, win = { position = 'right' } })<CR>";
-        mode = "n";
-        options.desc = "Toggle vertical terminal";
-      }
-      {
-        key = "<leader>tw";
-        action = "<cmd>set invwrap<CR>";
-        mode = "n";
-        options.desc = "Toggle word wrap";
-      }
-      {
-        key = "<leader>tn";
-        action = "<cmd>set invnumber<CR>";
-        mode = "n";
-        options.desc = "Toggle line numbers";
-      }
-      {
-        key = "<leader>tr";
-        action = "<cmd>set invrelativenumber<CR>";
-        mode = "n";
-        options.desc = "Toggle relative line numbers";
-      }
-      {
-        key = "<leader>ti";
-        action = "<cmd>lua Snacks.toggle.indent():toggle()<CR>";
-        mode = "n";
-        options.desc = "Toggle indent guides";
-      }
-      # ---------- Quit ----------
-      {
-        key = "<leader>qq";
-        action = "<cmd>qa<CR>";
-        mode = "n";
-        options.desc = "Quit";
-      }
-      {
-        key = "<leader>qr";
-        action = "<cmd>restart<CR>";
-        mode = "n";
-        options.desc = "Restart";
-      }
-      {
-        key = "<leader>qR";
-        action.__raw = ''
-          function()
-            local file = vim.fn.stdpath("state") .. "/restart-session.vim"
-            vim.cmd("mksession! " .. vim.fn.fnameescape(file))
-            vim.cmd("restart source " .. vim.fn.fnameescape(file))
-          end
-        '';
-        mode = "n";
-        options.desc = "Restart and restore everything";
       }
       # ---------- Misc ----------
       {
