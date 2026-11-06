@@ -50,9 +50,7 @@
     };
   };
 
-  nixpkgs.config = {
-    allowUnfree = true;
-  };
+  nixpkgs.config.allowUnfree = true;
 
   # ── NixGL integration for GPU/OpenGL access ───────────────────────
   # Wraps programs so Nix-built apps can find the host GPU libraries.

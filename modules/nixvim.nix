@@ -3,6 +3,7 @@
 {
   programs.nixvim = {
     enable = true;
+    nixpkgs.config.allowUnfree = true;
     globals.mapleader = " ";
     globals.maplocalleader = " ";
 
@@ -30,6 +31,38 @@
     };
     plugins.lsp.enable = true;
 
+    plugins.scope.enable = true;
+    plugins.oil.enable = true;
+    plugins.telescope = {
+      enable = true;
+      extensions.file-browser = {
+        enable = true;
+        settings = {
+          hidden = {
+            file_browser = true;
+            folder_browser = true;
+          };
+          respect_gitignore = false;
+          grouped = true;
+          mappings.i = {
+            # Enter on a directory opens it in oil (dired); Tab descends instead.
+            "<CR>".__raw = ''
+              function(bufnr)
+                local actions = require("telescope.actions")
+                local entry = require("telescope.actions.state").get_selected_entry()
+                if entry and vim.fn.isdirectory(entry.path) == 1 then
+                  actions.close(bufnr)
+                  require("oil").open(entry.path)
+                else
+                  actions.select_default(bufnr)
+                end
+              end
+            '';
+            "<Tab>".__raw = ''require("telescope.actions").select_default'';
+          };
+        };
+      };
+    };
     plugins.neogit.enable = true;
     plugins.diffview.enable = true;
     plugins.treesitter = {
@@ -53,10 +86,20 @@
         pairs = { };
         icons = { };
         statusline = { };
-        tabline = { };
+        tabline.tabpage_section = "none";
         diff = { };
       };
     };
+    # mini.tabline cannot label its tab section, so draw it here with the workspace name.
+    extraConfigLuaPost = ''
+      local tabline_buffers = MiniTabline.make_tabline_string
+      MiniTabline.make_tabline_string = function()
+        local name = vim.t.workspace_name
+        local label = name and (" - " .. name:gsub("%%", "%%%%")) or ""
+        return string.format("%%#MiniTablineTabpagesection# Tab %d/%d%s %%T", vim.fn.tabpagenr(), vim.fn.tabpagenr("$"), label)
+          .. tabline_buffers()
+      end
+    '';
     plugins.snacks = {
       enable = true;
       settings = {
@@ -124,16 +167,15 @@
           __unkeyed-1 = "<leader>g";
           group = "Git";
         }
+        {
+          __unkeyed-1 = "<leader><tab>";
+          group = "Workspaces";
+        }
       ];
     };
 
     keymaps = [
-      {
-        key = "jk";
-        action = "<Esc>";
-        mode = "i";
-        options.desc = "Exit insert mode";
-      }
+      # ---------- Files ----------
       {
         key = "<leader>fs";
         action = "<cmd>write<CR>";
@@ -142,9 +184,15 @@
       }
       {
         key = "<leader>ff";
+        action = "<cmd>Telescope file_browser path=%:p:h select_buffer=true<CR>";
+        mode = "n";
+        options.desc = "Browse files";
+      }
+      {
+        key = "<leader>fp";
         action = "<cmd>lua Snacks.picker.files()<CR>";
         mode = "n";
-        options.desc = "Find files";
+        options.desc = "Find project files";
       }
       {
         key = "<leader>fg";
@@ -170,6 +218,7 @@
         mode = "n";
         options.desc = "Recent files";
       }
+      # ---------- Buffers ----------
       {
         key = "<leader>bn";
         action = "<cmd>bnext<CR>";
@@ -195,11 +244,65 @@
         options.desc = "Save all buffers";
       }
       {
-        key = "<leader>e";
-        action = "<cmd>lua Snacks.explorer()<CR>";
+        key = "<leader>bd";
+        action = "<cmd>bd<CR>";
         mode = "n";
-        options.desc = "File explorer";
+        options.desc = "Delete buffer";
       }
+      # ---------- Workspaces ----------
+      {
+        key = "<leader><tab>.";
+        action.__raw = ''
+          function()
+            local items = {}
+            for i, t in ipairs(vim.api.nvim_list_tabpages()) do
+              items[#items + 1] = { nr = i, name = vim.t[t].workspace_name or "unnamed" }
+            end
+            vim.ui.select(items, {
+              prompt = "Workspaces",
+              format_item = function(it) return it.nr .. ": " .. it.name end,
+            }, function(it)
+              if it then vim.cmd(it.nr .. "tabnext") end
+            end)
+          end
+        '';
+        mode = "n";
+        options.desc = "List workspaces";
+      }
+      {
+        key = "<leader><tab>n";
+        action.__raw = ''
+          function()
+            vim.ui.input({ prompt = "Workspace name: " }, function(name)
+              if name and name ~= "" then
+                vim.cmd("tabnew")
+                vim.t.workspace_name = name
+              end
+            end)
+          end
+        '';
+        mode = "n";
+        options.desc = "New workspace";
+      }
+      {
+        key = "<leader><tab>r";
+        action.__raw = ''
+          function()
+            vim.ui.input({ prompt = "Rename workspace: ", default = vim.t.workspace_name }, function(name)
+              if name and name ~= "" then vim.t.workspace_name = name end
+            end)
+          end
+        '';
+        mode = "n";
+        options.desc = "Rename workspace";
+      }
+      {
+        key = "<leader><tab>d";
+        action = "<cmd>tabclose<CR>";
+        mode = "n";
+        options.desc = "Close workspace";
+      }
+      # ---------- Git ----------
       {
         key = "<leader>gs";
         action = "<cmd>Neogit<CR>";
@@ -248,6 +351,7 @@
         mode = "n";
         options.desc = "Close diff view";
       }
+      # ---------- Diagnostics ----------
       {
         key = "<leader>xx";
         action = "<cmd>lua Snacks.picker.diagnostics()<CR>";
@@ -272,6 +376,7 @@
         mode = "n";
         options.desc = "LSP references";
       }
+      # ---------- Window ----------
       {
         key = "<leader>wc";
         action = "<cmd>close<CR>";
@@ -290,17 +395,12 @@
         mode = "n";
         options.desc = "Next window";
       }
+      # ---------- Toggle ----------
       {
         key = "<leader>tf";
         action = "<cmd>lua Snacks.terminal(nil, { count = 1, win = { position = 'float', border = 'rounded' } })<CR>";
         mode = "n";
         options.desc = "Toggle floating terminal";
-      }
-      {
-        key = "<C-q>";
-        action = "<C-\\><C-n>";
-        mode = "t";
-        options.desc = "Terminal normal mode";
       }
       {
         key = "<leader>tv";
@@ -332,6 +432,32 @@
         mode = "n";
         options.desc = "Toggle indent guides";
       }
-    ];
+      # ---------- Misc ----------
+      {
+        key = "jk";
+        action = "<Esc>";
+        mode = "i";
+        options.desc = "Exit insert mode";
+      }
+      {
+        key = "<leader>e";
+        action = "<cmd>lua Snacks.explorer()<CR>";
+        mode = "n";
+        options.desc = "File explorer";
+      }
+      {
+        key = "<C-q>";
+        action = "<C-\\><C-n>";
+        mode = "t";
+        options.desc = "Terminal normal mode";
+      }
+    ] ++
+    # Workspaces: jump 1..9
+    builtins.genList (i: {
+      key = "<leader><tab>${toString (i + 1)}";
+      action = "<cmd>${toString (i + 1)}tabnext<CR>";
+      mode = "n";
+      options.desc = "Workspace ${toString (i + 1)}";
+    }) 9;
   };
 }
