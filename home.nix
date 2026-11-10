@@ -348,6 +348,9 @@
         nvim-tab = [
           { run = ''wt.exe -w 0 new-tab wsl.exe -d "$WSL_DISTRO_NAME" --cd "$PWD" -- bash -lc nvim''; orphan = true; desc = "nvim (directory - new tab)"; }
         ];
+        terminal-tab = [
+          { run = ''wt.exe -w 0 new-tab wsl.exe -d "$WSL_DISTRO_NAME" --cd "$PWD"''; orphan = true; desc = "Terminal (directory - new tab)"; }
+        ];
         vscode = [
           { run = "code -n ."; orphan = true; desc = "VS Code"; }
         ];
@@ -358,8 +361,8 @@
 
       open = {
         prepend_rules = [
-          { url = "*/"; use = [ "vscode" "zed" "nvim-tab" "edit" "open" "reveal" ]; }
-          { url = "*"; use = [ "vscode" "edit" "open" "reveal" ]; }
+          { url = "*/"; use = [ "terminal-tab" "nvim-tab" "vscode" "zed" "edit" "open" "reveal" ]; }
+          { url = "*"; use = [ "terminal-tab" "nvim-tab" "vscode" "edit" "open" "reveal" ]; }
         ];
       };
     };
