@@ -24,16 +24,14 @@
 
     colorschemes.onedark.enable = true;
 
-    autoCmd = [
-      {
-        event = "TextYankPost";
-        callback.__raw = ''
-          function()
-            vim.highlight.on_yank({ higroup = "IncSearch", timeout = 200 })
-          end
-        '';
-      }
-    ];
+    plugins.yanky = {
+      enable = true;
+      settings.highlight = {
+        on_put = false;
+        on_yank = true;
+        timer = 200;
+      };
+    };
     plugins.lsp.servers = {
       nixd.enable = true;
       pyright.enable = true;
@@ -46,13 +44,50 @@
     plugins.lsp.enable = true;
 
     plugins.scope.enable = true;
-    plugins.oil.enable = true;
+    plugins.oil = {
+      enable = true;
+      settings = {
+        default_file_explorer = true;
+        columns = [
+          "permissions"
+          "size"
+          "mtime"
+          "icon"
+        ];
+        delete_to_trash = true;
+        watch_for_changes = true;
+        constrain_cursor = "name";
+        view_options = {
+          show_hidden = true;
+          natural_order = true;
+        };
+        float.border = "rounded";
+        keymaps = {
+          "^" = "actions.parent";
+          "q" = "actions.close";
+          "<C-s>" = "actions.change_sort";
+          "." = "actions.toggle_hidden";
+          "gd".__raw = ''
+            {
+              desc = "Toggle detail columns",
+              callback = function()
+                local oil = require("oil")
+                vim.g.oil_detail = vim.g.oil_detail == false
+                oil.set_columns(vim.g.oil_detail and { "permissions", "size", "mtime", "icon" } or { "icon" })
+              end,
+            }
+          '';
+        };
+      };
+    };
     plugins.flash.enable = true;
+    plugins.grug-far.enable = true;
     plugins.telescope = {
       enable = true;
       extensions.file-browser = {
         enable = true;
         settings = {
+          previewer = false;
           hidden = {
             file_browser = true;
             folder_browser = true;
@@ -101,20 +136,24 @@
         pairs = { };
         icons = { };
         statusline = { };
-        tabline.tabpage_section = "none";
         diff = { };
       };
     };
-    # mini.tabline cannot label its tab section, so draw it here with the workspace name.
-    extraConfigLuaPost = ''
-      local tabline_buffers = MiniTabline.make_tabline_string
-      MiniTabline.make_tabline_string = function()
-        local name = vim.t.workspace_name
-        local label = name and (" - " .. name:gsub("%%", "%%%%")) or ""
-        return string.format("%%#MiniTablineTabpagesection# Tab %d/%d%s %%T", vim.fn.tabpagenr(), vim.fn.tabpagenr("$"), label)
-          .. tabline_buffers()
-      end
-    '';
+    plugins.bufferline = {
+      enable = true;
+      settings.options = {
+        always_show_bufferline = true;
+        separator_style = "slant";
+        # Left area shows the tab number and its workspace name.
+        custom_areas.left.__raw = ''
+          function()
+            local name = vim.t.workspace_name
+            local label = name and (" - " .. name) or ""
+            return { { text = string.format(" Tab %d/%d%s ", vim.fn.tabpagenr(), vim.fn.tabpagenr("$"), label), link = "BufferLineTab" } }
+          end
+        '';
+      };
+    };
     plugins.snacks = {
       enable = true;
       settings = {
@@ -183,6 +222,10 @@
           group = "Quit";
         }
         {
+          __unkeyed-1 = "<leader>s";
+          group = "Search";
+        }
+        {
           __unkeyed-1 = "<leader>t";
           group = "Toggle";
         }
@@ -204,6 +247,52 @@
         action.__raw = "function() require('flash').jump() end";
         mode = [ "n" "x" "o" ];
         options.desc = "Flash jump";
+      }
+      # ---------- Search & replace ----------
+      {
+        key = "<leader>sr";
+        action.__raw = ''
+          function()
+            local ext = vim.bo.buftype == "" and vim.fn.expand("%:e")
+            require("grug-far").open({
+              transient = true,
+              prefills = { filesFilter = ext and ext ~= "" and "*." .. ext or nil },
+            })
+          end
+        '';
+        mode = [ "n" "x" ];
+        options.desc = "Search and Replace";
+      }
+      # ---------- Yank ----------
+      {
+        key = "y";
+        action = "<Plug>(YankyYank)";
+        mode = [ "n" "x" ];
+        options.desc = "Yank";
+      }
+      {
+        key = "p";
+        action = "<Plug>(YankyPutAfter)";
+        mode = [ "n" "x" ];
+        options.desc = "Put after";
+      }
+      {
+        key = "P";
+        action = "<Plug>(YankyPutBefore)";
+        mode = [ "n" "x" ];
+        options.desc = "Put before";
+      }
+      {
+        key = "<C-p>";
+        action = "<Plug>(YankyPreviousEntry)";
+        mode = "n";
+        options.desc = "Previous yank entry";
+      }
+      {
+        key = "<C-n>";
+        action = "<Plug>(YankyNextEntry)";
+        mode = "n";
+        options.desc = "Next yank entry";
       }
       # ---------- Buffers ----------
       {
@@ -281,6 +370,17 @@
         options.desc = "Find buffers";
       }
       {
+        key = "<leader>fc";
+        action.__raw = ''
+          function()
+            vim.cmd("tcd " .. vim.fn.fnameescape(vim.fn.expand("%:p:h")))
+            vim.notify("tab cwd: " .. vim.fn.getcwd())
+          end
+        '';
+        mode = "n";
+        options.desc = "Tab cwd to file directory";
+      }
+      {
         key = "<leader>ff";
         action = "<cmd>Telescope file_browser path=%:p:h select_buffer=true<CR>";
         mode = "n";
@@ -297,6 +397,12 @@
         action = "<cmd>lua Snacks.picker.help()<CR>";
         mode = "n";
         options.desc = "Search help";
+      }
+      {
+        key = "<leader>fy";
+        action = "<cmd>lua Snacks.picker.yanky()<CR>";
+        mode = "n";
+        options.desc = "Yank history";
       }
       {
         key = "<leader>fp";
@@ -368,13 +474,27 @@
       # ---------- Open ----------
       {
         key = "<leader>ot";
-        action = "<cmd>lua Snacks.terminal(nil, { count = 1, win = { position = 'bottom' } })<CR>";
+        action.__raw = ''
+          function()
+            local dir = vim.fn.expand("%:p:h")
+            if vim.bo.buftype ~= "" or dir == "" then dir = vim.fn.getcwd() end
+            Snacks.terminal(nil, { cwd = dir, count = 1, win = { position = "bottom" } })
+          end
+        '';
         mode = "n";
         options.desc = "Toggle bottom terminal";
       }
       {
         key = "<leader>oT";
-        action = "<cmd>terminal<CR>";
+        action.__raw = ''
+          function()
+            local dir = vim.fn.expand("%:p:h")
+            if vim.bo.buftype ~= "" or dir == "" then dir = vim.fn.getcwd() end
+            vim.cmd("terminal")
+            vim.b.terminal_cwd = dir
+            vim.fn.chansend(vim.b.terminal_job_id, "cd " .. vim.fn.shellescape(dir) .. " && clear\n")
+          end
+        '';
         mode = "n";
         options.desc = "Terminal in current buffer";
       }

@@ -325,23 +325,40 @@
     enableBashIntegration = true;
     shellWrapperName = "y";
 
+    flavors = {
+      catppuccin-mocha = "${pkgs.fetchFromGitHub {
+        owner = "yazi-rs";
+        repo = "flavors";
+        rev = "38c08d8eb9ea0d28c8c911a249a08f27ba2151ac";
+        hash = "sha256-lITDt1QvL54u6gbJiGixPyP6lk72f3rkiNPDrUg6G8I=";
+      }}/catppuccin-mocha.yazi";
+    };
+
+    theme.flavor = {
+      dark = "catppuccin-mocha";
+      light = "catppuccin-mocha";
+    };
+
     settings = {
       manager = {
         show_hidden = true;
       };
 
       opener = {
+        nvim-tab = [
+          { run = ''wt.exe -w 0 new-tab wsl.exe -d "$WSL_DISTRO_NAME" --cd "$PWD" -- bash -lc nvim''; orphan = true; desc = "nvim (directory - new tab)"; }
+        ];
         vscode = [
-          { run = "code -n ."; orphan = true; desc = "code"; }
+          { run = "code -n ."; orphan = true; desc = "VS Code"; }
+        ];
+        zed = [
+          { run = ''/mnt/c/Users/zed/current/bin/zed "$(wslpath -w "$PWD")"''; orphan = true; desc = "Zed"; }
         ];
       };
 
       open = {
         prepend_rules = [
-          # "url" is the correct field, not "name"
-          # "*/" matches directories
-          { url = "*/"; use = [ "vscode" "edit" "open" "reveal" ]; }
-          # "*" matches everything else
+          { url = "*/"; use = [ "vscode" "zed" "nvim-tab" "edit" "open" "reveal" ]; }
           { url = "*"; use = [ "vscode" "edit" "open" "reveal" ]; }
         ];
       };
