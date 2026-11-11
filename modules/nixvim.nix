@@ -143,7 +143,7 @@
       enable = true;
       settings.options = {
         always_show_bufferline = true;
-        separator_style = "slant";
+        separator_style = "thin";
         # Left area shows the tab number and its workspace name.
         custom_areas.left.__raw = ''
           function()

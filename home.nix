@@ -355,7 +355,7 @@
           { run = "code -n ."; orphan = true; desc = "VS Code"; }
         ];
         windows = [
-          { run = ''wslview "$@"''; orphan = true; desc = "Windows default app"; }
+          { run = ''explorer.exe "$(wslpath -w "$1")"''; orphan = true; desc = "Windows default app"; }
         ];
         zed = [
           { run = ''/mnt/c/Users/zed/current/bin/zed "$(wslpath -w "$PWD")"''; orphan = true; desc = "Zed"; }
