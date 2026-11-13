@@ -220,6 +220,10 @@
     initExtra = ''
       set -o vi
 
+      # fzf **<Tab> completion: use fd (skips .git, respects .gitignore, no symlink following)
+      _fzf_compgen_path() { fd --hidden --exclude .git . "$1"; }
+      _fzf_compgen_dir() { fd --type d --hidden --exclude .git . "$1"; }
+
       # ── up-all function ──
       up-all() {
         echo "--- Updating Windows Scoop Packages ---"
@@ -304,7 +308,11 @@
   programs.fzf = {
     enable = true;
     enableBashIntegration = true;
-    defaultOptions = [ "--height 40%" "--border" ];
+    defaultCommand = "fd --type f --hidden --exclude .git";
+    defaultOptions = [ "--height 40%" "--border" "--scheme=path" "--tiebreak=pathname,length" ];
+    fileWidget.command = "fd --type f --hidden --exclude .git";
+    fileWidget.options = [ "--preview 'bat --color=always --line-range :200 {}'" ];
+    changeDirWidget.command = "fd --type d --hidden --exclude .git";
     historyWidget.command = ""; # Ctrl-R belongs to atuin
   };
 
