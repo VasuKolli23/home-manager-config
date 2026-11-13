@@ -305,6 +305,22 @@
     enable = true;
     enableBashIntegration = true;
     defaultOptions = [ "--height 40%" "--border" ];
+    historyWidget.command = ""; # Ctrl-R belongs to atuin
+  };
+
+  # ── atuin shell history ──────────────────────────────────────────────
+  programs.atuin = {
+    enable = true;
+    enableBashIntegration = true;
+    flags = [ "--disable-up-arrow" ];
+    settings = {
+      filter_mode = "global";
+      search_mode = "fuzzy";
+      style = "full";
+      auto_sync = false;
+      sync.records = false;
+      enter_accept = true;
+    };
   };
 
   # ── bat  ─────────────────────────────────────────────────────────────
