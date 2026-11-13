@@ -320,6 +320,8 @@
       auto_sync = false;
       sync.records = false;
       enter_accept = true;
+      keymap_mode = "vim-insert";
+      search.filters = [ "global" "directory" "session+" "workspace" ];
     };
   };
 
