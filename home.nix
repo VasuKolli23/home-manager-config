@@ -513,8 +513,8 @@
       };
     };
 
-    # Terminal UI configuration (tui.json)
-    tui = {
+    # Terminal client configuration (cli.json)
+    cli = {
       theme = "one-dark";
       mouse = true;
       attention = {
