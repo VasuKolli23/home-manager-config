@@ -368,7 +368,6 @@
     settings = {
       mgr = {
         show_hidden = true;
-        ratio = [ 1 4 0 ];
       };
 
       opener = {
