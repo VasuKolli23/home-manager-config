@@ -377,6 +377,9 @@
         terminal-tab = [
           { run = ''wt.exe -w 0 new-tab wsl.exe -d "$WSL_DISTRO_NAME" --cd "$PWD"''; orphan = true; desc = "Terminal (directory - new tab)"; }
         ];
+        emacs = [
+          { run = ''emacs "$PWD"''; orphan = true; desc = "Emacs"; }
+        ];
         vscode = [
           { run = "code -n ."; orphan = true; desc = "VS Code"; }
         ];
@@ -395,8 +398,8 @@
           { mime = "audio/*"; use = [ "windows" "reveal" ]; }
           { mime = "application/pdf"; use = [ "windows" "reveal" ]; }
           { url = "*.{doc,docx,xls,xlsx,ppt,pptx,odt,ods,odp,vsdx,msg}"; use = [ "windows" "reveal" ]; }
-          { url = "*/"; use = [ "terminal-tab" "nvim-tab" "vscode" "zed" "edit" "open" "reveal" ]; }
-          { url = "*"; use = [ "terminal-tab" "nvim-tab" "vscode" "edit" "open" "reveal" ]; }
+          { url = "*/"; use = [ "terminal-tab" "nvim-tab" "vscode" "emacs" "zed" "edit" "open" "reveal" ]; }
+          { url = "*"; use = [ "terminal-tab" "nvim-tab" "vscode" "emacs" "edit" "open" "reveal" ]; }
         ];
       };
     };
