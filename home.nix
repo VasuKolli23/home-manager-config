@@ -386,6 +386,9 @@
         windows = [
           { run = ''explorer.exe "$(wslpath -w "$1")"''; orphan = true; desc = "Windows default app"; }
         ];
+        explorer = [
+          { run = ''explorer.exe "$(wslpath -w "$PWD")"''; orphan = true; desc = "Windows Explorer (current folder)"; }
+        ];
         zed = [
           { run = ''/mnt/c/Users/zed/current/bin/zed "$(wslpath -w "$PWD")"''; orphan = true; desc = "Zed"; }
         ];
@@ -393,13 +396,9 @@
 
       open = {
         prepend_rules = [
-          { mime = "image/*"; use = [ "windows" "reveal" ]; }
-          { mime = "video/*"; use = [ "windows" "reveal" ]; }
-          { mime = "audio/*"; use = [ "windows" "reveal" ]; }
-          { mime = "application/pdf"; use = [ "windows" "reveal" ]; }
           { url = "*.{doc,docx,xls,xlsx,ppt,pptx,odt,ods,odp,vsdx,msg}"; use = [ "windows" "reveal" ]; }
-          { url = "*/"; use = [ "terminal-tab" "nvim-tab" "vscode" "emacs" "zed" "edit" "open" "reveal" ]; }
-          { url = "*"; use = [ "terminal-tab" "nvim-tab" "vscode" "emacs" "edit" "open" "reveal" ]; }
+          { url = "*/"; use = [ "terminal-tab" "nvim-tab" "vscode" "emacs" "zed" "explorer" "edit" "open" "reveal" ]; }
+          { url = "*"; use = [ "terminal-tab" "nvim-tab" "vscode" "emacs" "zed" "explorer" "edit" "open" "reveal" ]; }
         ];
       };
     };
@@ -526,6 +525,23 @@
       };
     };
   };
+  # ── pi coding agent ────────────────────────────────────────────────
+  programs.pi-coding-agent = {
+    enable = true;
+
+    settings = {
+      defaultProvider = "ollama";
+      defaultModel = "qwen3.8:27b-mtp-q4_K_M";
+    };
+
+    models.providers.ollama = {
+      baseUrl = "http://127.0.0.1:11434/v1";
+      api = "openai-completions";
+      apiKey = "ollama";
+      models = [ { id = "qwen3.8:27b-mtp-q4_K_M"; } ];
+    };
+  };
+
   # ── background services ────────────────────────────────────────────
   systemd.user.services.ollama = {
     Unit = {
