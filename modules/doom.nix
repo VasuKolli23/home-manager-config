@@ -4,6 +4,10 @@
   programs.emacs = {
     enable = true;
     package = pkgs.emacs;
+    extraPackages = epkgs: [
+      epkgs.vterm
+      epkgs.pdf-tools
+    ];
   };
 
   home.packages = with pkgs; [
